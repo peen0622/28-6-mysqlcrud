@@ -1,36 +1,36 @@
-/*28±â ±èÈ£¼ø 2018.6.26(È­)*/
+/*28ê¸° ê¹€í˜¸ìˆœ 2018.6.26(í™”)*/
 package service;	
-import java.sql.*;	// µå¶óÀÌ¹ö ·Îµù¿¡ ÇÎ¿äÇÑ Å¬·¡½ºµéÀ» ÇÑ¹ø¿¡ ÀÓÆ÷µå ÇÏ¿´´Ù. 
-import service.Student;	// service ÆĞÅ°Áö³» Student Å¬·¡½º¸¦ ÀÓÆ÷Æ® ÇÏ¿´´Ù.
+import java.sql.*;	// ë“œë¼ì´ë²„ ë¡œë”©ì— í•‘ìš”í•œ í´ë˜ìŠ¤ë“¤ì„ í•œë²ˆì— ì„í¬ë“œ í•˜ì˜€ë‹¤. 
+import service.Student;	// service íŒ¨í‚¤ì§€ë‚´ Student í´ë˜ìŠ¤ë¥¼ ì„í¬íŠ¸ í•˜ì˜€ë‹¤.
 
 public class StudentDao {
 	
-	public int insertStudent(Student student) {	// ¸Ş¼­µå¸í(insertStudent) , Student class data type ÀÇ ¸Å°³º¯¼ö student 
-		Connection conn = null;	// µå¶óÀÌ¹ö·Îµù¿¡ ÇÊ¿äÇÑ Å¬·¡½º ÀÇ º¯¼ö connÀÇ °ªÀ» ÃÊ±âÈ­ ÇÏ¿´´Ù.
-		PreparedStatement pstmt = null;	// µå¶óÀÌ¹ö·Îµù¿¡ ÇÊ¿äÇÑ Å¬·¡½º ÀÇ º¯¼ö pstmtÀÇ °ªÀ» ÃÊ±âÈ­ ÇÏ¿´´Ù.
+	public int insertStudent(Student student) {	// ë©”ì„œë“œëª…(insertStudent) , Student class data type ì˜ ë§¤ê°œë³€ìˆ˜ student 
+		Connection conn = null;	// ë“œë¼ì´ë²„ë¡œë”©ì— í•„ìš”í•œ í´ë˜ìŠ¤ ì˜ ë³€ìˆ˜ connì˜ ê°’ì„ ì´ˆê¸°í™” í•˜ì˜€ë‹¤.
+		PreparedStatement pstmt = null;	// ë“œë¼ì´ë²„ë¡œë”©ì— í•„ìš”í•œ í´ë˜ìŠ¤ ì˜ ë³€ìˆ˜ pstmtì˜ ê°’ì„ ì´ˆê¸°í™” í•˜ì˜€ë‹¤.
 		
-		try {	// ¿¹¿ÜÃ³¸®¸¦ ÇÏ±âÀ§ÇÑ try...catch...finally ¹® ½ÃÀÛ
-			Class.forName("com.mysql.jdbc.Driver");	// µå¶óÀÌ¹ö ·ÎµùÇÏ±â
+		try {	// ì˜ˆì™¸ì²˜ë¦¬ë¥¼ í•˜ê¸°ìœ„í•œ try...catch...finally ë¬¸ ì‹œì‘
+			Class.forName("com.mysql.jdbc.Driver");	// ë“œë¼ì´ë²„ ë¡œë”©í•˜ê¸°
 			
-			// DB ¿¬°á ½ÃÀÛ
+			// DB ì—°ê²° ì‹œì‘
 			String dbUrl = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
 			String dbId = "mysqlcrudid";
 			String dbPw = "mysqlcrudpw";
 		
-			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);	// DB ¿¬°á ³¡
+			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);	// DB ì—°ê²° ë
 			
-			//	Query ½ÇÇàÀ» À§ÇÑ prepareStatemet °´Ã¼ »ı¼º
-			pstmt = conn.prepareStatement("INSERT INTO student(student_name, student_age) VALUES(?, ?)");	// student Å×ÀÌºí ¾È¿¡ ÀÌ¸§°ú ³ªÀÌ¸¦ ÀÔ·ÂÇÏ´Â Äõ¸®¹®
+			//	Query ì‹¤í–‰ì„ ìœ„í•œ prepareStatemet ê°ì²´ ìƒì„±
+			pstmt = conn.prepareStatement("INSERT INTO student(student_name, student_age) VALUES(?, ?)");	// student í…Œì´ë¸” ì•ˆì— ì´ë¦„ê³¼ ë‚˜ì´ë¥¼ ì…ë ¥í•˜ëŠ” ì¿¼ë¦¬ë¬¸.
 			
-			pstmt.setString(1, student.getStudentName());	// Ã¹¹øÂ° ? ¿¡  studentÀÇ ÁÖ¼Ò°ªÀ» Ã£¾Æ°¡¼­ student classÀÇ studentNameÀ» °¡Á®¿Í student_name¿¡ ¼ÂÆÃÇÑ´Ù
-			pstmt.setInt(2, student.getStudentAge());	// µÎ¹øÂ° ? ¿¡  studentÀÇ ÁÖ¼Ò°ªÀ» Ã£¾Æ°¡¼­ student classÀÇ studentAgeÀ» °¡Á®¿Í student_age¿¡ ¼ÂÆÃÇÑ´Ù.
-			pstmt.executeUpdate();	// Äõ¸® ½ÇÇà
+			pstmt.setString(1, student.getStudentName());	// ì²«ë²ˆì§¸ ? ì—  studentì˜ ì£¼ì†Œê°’ì„ ì°¾ì•„ê°€ì„œ student classì˜ studentNameì„ ê°€ì ¸ì™€ student_nameì— ì…‹íŒ…í•œë‹¤
+			pstmt.setInt(2, student.getStudentAge());	// ë‘ë²ˆì§¸ ? ì—  studentì˜ ì£¼ì†Œê°’ì„ ì°¾ì•„ê°€ì„œ student classì˜ studentAgeì„ ê°€ì ¸ì™€ student_ageì— ì…‹íŒ…í•œë‹¤.
+			pstmt.executeUpdate();	// ì¿¼ë¦¬ ì‹¤í–‰
 			
-		} catch (ClassNotFoundException | SQLException e) {	// class ¸¦ ¸øÃ£°Å³ª sql¿¡ ¿¹¿Ü°¡ ÀÖ´Ù¸é ¿À·ùÃ³¸®
+		} catch (ClassNotFoundException | SQLException e) {	// class ë¥¼ ëª»ì°¾ê±°ë‚˜ sqlì— ì˜ˆì™¸ê°€ ìˆë‹¤ë©´ ì˜¤ë¥˜ì²˜ë¦¬
 			e.printStackTrace();			
-		}finally{	// ¿À·ùÃ³¸® ¿©ºÎ¿Í °ü°è¾øÀÌ ½ÇÇà
-			if (pstmt != null) try { pstmt.close(); } catch(SQLException ex) {}	//	pstmt ¿¬°á Á¾·á 
-			if (conn != null) try { conn.close(); } catch(SQLException ex) {}	//	conn ¿¬°á Á¾·á
+		}finally{	// ì˜¤ë¥˜ì²˜ë¦¬ ì—¬ë¶€ì™€ ê´€ê³„ì—†ì´ ì‹¤í–‰
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException ex) {}	//	pstmt ì—°ê²° ì¢…ë£Œ 
+			if (conn != null) try { conn.close(); } catch(SQLException ex) {}	//	conn ì—°ê²° ì¢…ë£Œ
 		}
 		return 0;	
 	}
