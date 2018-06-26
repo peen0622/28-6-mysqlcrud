@@ -10,7 +10,8 @@ public class MemberDao {
 	public int insertMember(Member member){	//insertMemberDao 메서드 선언
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	//초기값 설정
-	
+		int a = 0;
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
 	
@@ -26,17 +27,17 @@ public class MemberDao {
 			pstmt.setString(1, member.getMemberName());	//변수 member에 대입된 주소값을 찾아가서 getMember_name메서드를 호출. 
 			pstmt.setInt(2, member.getMemberAge());		//리턴된 값이 ?에 대입.
 			
-			pstmt.executeUpdate();	//쿼리 실행
+			a = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
 			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				// TODO Auto-generated catch block
+				System.out.println("오류 발생1");
 				e.printStackTrace();	
 			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				// TODO Auto-generated catch block
+				System.out.println("오류 발생2");
 				ex.printStackTrace();
 			}finally{	//예외가 발생하든 안하든 필수로 실행.
 				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 			}
-		return 0;
+		return a;
 	}
 }

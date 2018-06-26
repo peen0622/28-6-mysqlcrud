@@ -1,30 +1,30 @@
-/*2018.06.26 ¹Ú¿ø¿ì*/
+/*2018.06.26 ë°•ì›ìš°*/
 package service;
 
-public class Employ {	//private´Â ÀÚ½ÅÀÇ Å¬·¡½º³»¿¡¼­¸¸ »ç¿ë°¡´É
-	private int employNo;	//private·Î int µ¥ÀÌÅÍ Å¸ÀÔÀÎ employ_no¸¦ ¼±¾ğ.
-	private String employNname;	//private·Î String µ¥ÀÌÅÍ Å¸ÀÔÀÎ employ_name¸¦ ¼±¾ğ
-	private int employAge;	//private·Î int µ¥ÀÌÅÍ Å¸ÀÔÀÎ employ_age¸¦ ¼±¾ğ.
+public class Employ {	//privateëŠ” ìì‹ ì˜ í´ë˜ìŠ¤ë‚´ì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥
+	private int employNo;	//privateë¡œ int ë°ì´í„° íƒ€ì…ì¸ employ_noë¥¼ ì„ ì–¸.
+	private String employNname;	//privateë¡œ String ë°ì´í„° íƒ€ì…ì¸ employ_nameë¥¼ ì„ ì–¸
+	private int employAge;	//privateë¡œ int ë°ì´í„° íƒ€ì…ì¸ employ_ageë¥¼ ì„ ì–¸.
 	
-	//public setter getter ¸Ş¼­µå ¼±¾ğ
-	public int getEmployNo() {	//´Ù¸¥ Å¬·¡½º¿¡¼­µµ »ç¿ëÇÒ¼ö ÀÖ°Ô publicÀ¸·Î ¸Ş¼­µå ¼±¾ğ
-		return employNo;	//Àü¿ªº¯¼ö¿¡ ´ã±ä °ªÀÌ ¸®ÅÏ.
+	//public setter getter ë©”ì„œë“œ ì„ ì–¸
+	public int getEmployNo() {	//ë‹¤ë¥¸ í´ë˜ìŠ¤ì—ì„œë„ ì‚¬ìš©í• ìˆ˜ ìˆê²Œ publicìœ¼ë¡œ ë©”ì„œë“œ ì„ ì–¸
+		return employNo;	//ì „ì—­ë³€ìˆ˜ì— ë‹´ê¸´ ê°’ì´ ë¦¬í„´.
 	}
 	public void setEmployNo(int employNo) {
-		this.employNo = employNo;	//¼ÂÆÃµÈ °ªÀÌ Àü¿ªº¯¼ö¿¡ ´ëÀÔ. ÀÌ¸§ÀÌ °°¾Æ¼­ this·Î ±¸ºĞ.
+		this.employNo = employNo;	//ì…‹íŒ…ëœ ê°’ì´ ì „ì—­ë³€ìˆ˜ì— ëŒ€ì…. ì´ë¦„ì´ ê°™ì•„ì„œ thisë¡œ êµ¬ë¶„.
 	}
 	public String getEmployName() {
 		return employNname;
 	}
 	public void setEmployName(String employNname) {
-		System.out.println(employNname+" : ÀÌ¸§");
+		System.out.println(employNname+" : ì…‹íŒ…í•œ ì´ë¦„");
 		this.employNname = employNname;
 	}
 	public int getEmployAge() {
 		return employAge;
 	}
 	public void setEmployAge(int employAge) {
-		System.out.println(employAge+" : ³ªÀÌ");
+		System.out.println(employAge+" : ì…‹íŒ…í•œ ë‚˜ì´");
 		this.employAge = employAge;
 	}
 }
