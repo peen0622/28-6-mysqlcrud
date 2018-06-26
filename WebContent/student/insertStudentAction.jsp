@@ -13,7 +13,7 @@
 <body>
 <%
 	StudentDao sdao = new StudentDao();	// 클래스 데이터타입의 객체참조변수 sdao에 StudentDao()생성자 메서드의 주소갑을 할당
-	sdao.insertStudent(student);	// sdao의 주소값을 찾아가 Dao클래스의 inserStudent메서드에 student(id)를 대입하고 호풀
+	sdao.insertStudent(student);	// sdao의 주소값을 찾아가 Dao클래스의 inserStudent메서드에 student(id)를 대입하고 호풀.
 %>
 
 </body>
