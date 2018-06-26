@@ -1,5 +1,4 @@
-// 김호순 2018.6.26(화)
-/* 김호순 2018.6.26(화) */
+//김호순 2018.06.26 (화)
 package service;
 
 public class Student {
