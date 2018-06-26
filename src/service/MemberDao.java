@@ -1,4 +1,12 @@
 /*2018.06.26 ¹Ú¿ø¿ì*/
+/*CREATE TABLE `member` (
+	`member_no` INT(10) NOT NULL AUTO_INCREMENT,
+	`member_name` VARCHAR(50) NOT NULL,
+	`member_age` INT(10) NOT NULL,
+	PRIMARY KEY (`member_no`)
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB*/
 package service;
 
 import java.sql.Connection;	//import.
