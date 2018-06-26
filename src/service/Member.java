@@ -1,30 +1,30 @@
-/*2018.06.26 ¹Ú¿ø¿ì*/
+/*2018.06.26 ë°•ì›ìš°*/
 package service;
 
-public class Member {		//private´Â ÀÚ½ÅÀÇ Å¬·¡½º³»¿¡¼­¸¸ »ç¿ë°¡´É
-	private int memberNo;	//private·Î int µ¥ÀÌÅÍ Å¸ÀÔÀÎ member_no¸¦ ¼±¾ğ.
-	private String memberName;	//private·Î String µ¥ÀÌÅÍ Å¸ÀÔÀÎ member_name¸¦ ¼±¾ğ.
-	private int memberAge;	//private·Î int µ¥ÀÌÅÍ Å¸ÀÔÀÎ member_age¸¦ ¼±¾ğ.
+public class Member {		//privateëŠ” ìì‹ ì˜ í´ë˜ìŠ¤ë‚´ì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥
+	private int memberNo;	//privateë¡œ int ë°ì´í„° íƒ€ì…ì¸ member_noë¥¼ ì„ ì–¸.
+	private String memberName;	//privateë¡œ String ë°ì´í„° íƒ€ì…ì¸ member_nameë¥¼ ì„ ì–¸.
+	private int memberAge;	//privateë¡œ int ë°ì´í„° íƒ€ì…ì¸ member_ageë¥¼ ì„ ì–¸.
 	
-	//public setter getter ¸Ş¼­µå ¼±¾ğ
-	public int getMemberNo() {	//´Ù¸¥ Å¬·¡½º¿¡¼­µµ »ç¿ëÇÒ¼ö ÀÖ°Ô publicÀ¸·Î ¸Ş¼­µå ¼±¾ğ
-		return memberNo;	//Àü¿ªº¯¼ö¿¡ ´ã±ä °ªÀÌ ¸®ÅÏ.
+	//public setter getter ë©”ì„œë“œ ì„ ì–¸
+	public int getMemberNo() {	//ë‹¤ë¥¸ í´ë˜ìŠ¤ì—ì„œë„ ì‚¬ìš©í• ìˆ˜ ìˆê²Œ publicìœ¼ë¡œ ë©”ì„œë“œ ì„ ì–¸
+		return memberNo;	//ì „ì—­ë³€ìˆ˜ì— ë‹´ê¸´ ê°’ì´ ë¦¬í„´.
 	}
 	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;	//¼ÂÆÃµÈ °ªÀÌ Àü¿ªº¯¼ö¿¡ ´ëÀÔ. ÀÌ¸§ÀÌ °°¾Æ¼­ this·Î ±¸ºĞ.
+		this.memberNo = memberNo;	//ì…‹íŒ…ëœ ê°’ì´ ì „ì—­ë³€ìˆ˜ì— ëŒ€ì…. ì´ë¦„ì´ ê°™ì•„ì„œ thisë¡œ êµ¬ë¶„.
 	}
 	public String getMemberName() {
 		return memberName;
 	}
 	public void setMemberName(String memberName) {
-		System.out.println(memberName+" : ÀÌ¸§");
+		System.out.println(memberName+" : ì´ë¦„");
 		this.memberName = memberName;
 	}
 	public int getMemberAge() {
 		return memberAge;
 	}
 	public void setMemberAge(int memberAge) {
-		System.out.println(memberAge+" : ³ªÀÌ");
+		System.out.println(memberAge+" : ë‚˜ì´");
 		this.memberAge = memberAge;
 	}
 }

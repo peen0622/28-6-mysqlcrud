@@ -1,4 +1,4 @@
-/*2018.06.26 박원우*/
+//2018.06.26 박원우
 package service;
 
 public class Employ {	//private는 자신의 클래스내에서만 사용가능

@@ -1,4 +1,4 @@
-/*2018.06.26 ¹Ú¿ø¿ì*/
+/*2018.06.26 ë°•ì›ìš°*/
 /*CREATE TABLE `member` (
 	`member_no` INT(10) NOT NULL AUTO_INCREMENT,
 	`member_name` VARCHAR(50) NOT NULL,
@@ -15,36 +15,36 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class MemberDao {	
-	public int insertMember(Member member){	//insertMemberDao ¸Ş¼­µå ¼±¾ğ
+	public int insertMember(Member member){	//insertMemberDao ë©”ì„œë“œ ì„ ì–¸
 		Connection conn = null;	
-		PreparedStatement pstmt = null;	//ÃÊ±â°ª ¼³Á¤
+		PreparedStatement pstmt = null;	//ì´ˆê¸°ê°’ ì„¤ì •
 		int a = 0;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");	//µå¶óÀÌ¹ö ·Îµù
+			Class.forName("com.mysql.jdbc.Driver");	//ë“œë¼ì´ë²„ ë¡œë”©
 	
 			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
 					"useUnicode=true&characterEncoding=euckr";
 			String dbUser = "mysqlcrudid";
 			String dbPass = "mysqlcrudpw";
 	
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB¿¬°á
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DBì—°ê²°
 			
 			pstmt = conn.prepareStatement(
-					"INSERT INTO member(member_name, member_age) VALUES (?, ?)");	//Äõ¸® ÁØºñ
-			pstmt.setString(1, member.getMemberName());	//º¯¼ö member¿¡ ´ëÀÔµÈ ÁÖ¼Ò°ªÀ» Ã£¾Æ°¡¼­ getMember_name¸Ş¼­µå¸¦ È£Ãâ. 
-			pstmt.setInt(2, member.getMemberAge());		//¸®ÅÏµÈ °ªÀÌ ?¿¡ ´ëÀÔ.
+					"INSERT INTO member(member_name, member_age) VALUES (?, ?)");	//ì¿¼ë¦¬ ì¤€ë¹„
+			pstmt.setString(1, member.getMemberName());	//ë³€ìˆ˜ memberì— ëŒ€ì…ëœ ì£¼ì†Œê°’ì„ ì°¾ì•„ê°€ì„œ getMember_nameë©”ì„œë“œë¥¼ í˜¸ì¶œ. 
+			pstmt.setInt(2, member.getMemberAge());		//ë¦¬í„´ëœ ê°’ì´ ?ì— ëŒ€ì….
 			
-			a = pstmt.executeUpdate();	//Äõ¸® ½ÇÇà, ½ÇÇà °á°ú°¡ 1ÀÌ¸é ÀÔ·Â,0ÀÌ¸é ÀÔ·Â½ÇÆĞ
-			} catch (ClassNotFoundException e) {	//µå¶óÀÌ¹ö ·Îµù Ã£Áö ¸øÇØ ¿¹¿Ü°¡ ¹ß»ıÇÏ¸é ½ÇÇà.
-				System.out.println("¿À·ù ¹ß»ı1");
+			a = pstmt.executeUpdate();	//ì¿¼ë¦¬ ì‹¤í–‰, ì‹¤í–‰ ê²°ê³¼ê°€ 1ì´ë©´ ì…ë ¥,0ì´ë©´ ì…ë ¥ì‹¤íŒ¨
+			} catch (ClassNotFoundException e) {	//ë“œë¼ì´ë²„ ë¡œë”© ì°¾ì§€ ëª»í•´ ì˜ˆì™¸ê°€ ë°œìƒí•˜ë©´ ì‹¤í–‰.
+				System.out.println("ì˜¤ë¥˜ ë°œìƒ1");
 				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL¿¡¼­ ¿¹¿Ü°¡ ¹ß»ıÇÏ¸é ½ÇÇà
-				System.out.println("¿À·ù ¹ß»ı2");
+			} catch (SQLException ex) {	//SQLì—ì„œ ì˜ˆì™¸ê°€ ë°œìƒí•˜ë©´ ì‹¤í–‰
+				System.out.println("ì˜¤ë¥˜ ë°œìƒ2");
 				ex.printStackTrace();
-			}finally{	//¿¹¿Ü°¡ ¹ß»ıÇÏµç ¾ÈÇÏµç ÇÊ¼ö·Î ½ÇÇà.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmtÁ¾·á
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//connÁ¾·á
+			}finally{	//ì˜ˆì™¸ê°€ ë°œìƒí•˜ë“  ì•ˆí•˜ë“  í•„ìˆ˜ë¡œ ì‹¤í–‰.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmtì¢…ë£Œ
+				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//connì¢…ë£Œ
 			}
 		return a;
 	}
