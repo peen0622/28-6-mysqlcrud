@@ -1,4 +1,4 @@
-<!-- 28기 김호순 2018.6.26(화) -->
+<!-- 28기 김호순 2018.6.26(화요일) -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.StudentDao" %>	<!-- service 패키지내 StudentDao 클래스 임포트 -->
 <% request.setCharacterEncoding("euc-kr"); %>
