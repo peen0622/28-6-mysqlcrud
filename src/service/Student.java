@@ -1,11 +1,11 @@
 // ±èÈ£¼ø 2018.6.26(È­)
+/* ±èÈ£¼ø 2018.6.26(È­) */
 package service;
 
 public class Student {
 	private int studentNo;
 	private String studentName;
 	private int studentAge;
-	
 	public int getStudentNo() {
 		return studentNo;
 	}
@@ -23,5 +23,6 @@ public class Student {
 	}
 	public void setStudentAge(int studentAge) {
 		this.studentAge = studentAge;
-	}	
+	}
+	
 }
