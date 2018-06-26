@@ -18,7 +18,7 @@
 					<td><input type="text" name="memberAge" size="20"></td>
 				<tr>
 				<tr>
-					<td><input type="submit" value="등록"></td>
+					<td><input type="submit" value="회원등록"></td>
 				</tr>
 			</table>
 		</form>
