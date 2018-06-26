@@ -1,4 +1,4 @@
-//Kimhosoon 2018.06.26 (Tue)
+//김호순 2018.06.26 (화요일)
 package service;
 
 public class Student {
