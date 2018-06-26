@@ -1,4 +1,4 @@
-/*2018.06.26 박원우*/
+//2018.06.26 박원우
 /*CREATE TABLE `member` (
 	`member_no` INT(10) NOT NULL AUTO_INCREMENT,
 	`member_name` VARCHAR(50) NOT NULL,
