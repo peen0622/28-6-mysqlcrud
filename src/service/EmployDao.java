@@ -11,7 +11,7 @@ public class EmployDao {
 	public int insertEmploy(Employ employ) {	//매개변수에 담긴 값은 객체주소값, 데이터 타입은 클래스
 		Connection conn = null;
 		PreparedStatement pstmt = null;	//초기값 설정
-		int a = 0;
+		int a = 0;	//리턴값을 설정하기 위한 변수 선언
 		
 		try {	//예외가 발생하면 catch로 이동
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
