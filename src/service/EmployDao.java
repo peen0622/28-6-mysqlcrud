@@ -1,4 +1,4 @@
-/*2018.06.26 박원우*/
+//2018.06.26 박원우
 package service;
 
 import java.sql.Connection;	//import.
