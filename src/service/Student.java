@@ -1,4 +1,4 @@
-/*28기 김호순 2018.6.26(화)*/
+/*28기 김호순 2018.6.26(화.)*/
 package service;
 
 public class Student {
