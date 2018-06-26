@@ -23,7 +23,7 @@ public class StudentDao {
 			pstmt = conn.prepareStatement("INSERT INTO student(student_name, student_age) VALUES(?, ?)");	// student 테이블 안에 이름과 나이를 입력하는 쿼리문
 			
 			pstmt.setString(1, student.getStudentName());	// 첫번째 ? 에  student의 주소값을 찾아가서 student class의 studentName을 가져와 student_name에 셋팅한다
-			pstmt.setInt(2, student.getStudentAge());	// 두번째 ? 에  student의 주소값을 찾아가서 student class의 studentAge을 가져와 student_age에 셋팅한다
+			pstmt.setInt(2, student.getStudentAge());	// 두번째 ? 에  student의 주소값을 찾아가서 student class의 studentAge을 가져와 student_age에 셋팅한다.
 			pstmt.executeUpdate();	// 쿼리 실행
 			
 		} catch (ClassNotFoundException | SQLException e) {	// class 를 못찾거나 sql에 예외가 있다면 오류처리

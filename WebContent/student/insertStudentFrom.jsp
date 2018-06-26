@@ -1,4 +1,4 @@
-<!-- 28±â ±èÈ£¼ø 2018.6.26(È­). -->
+<!-- 28±â ±èÈ£¼ø 2018.6.26(È­) -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
