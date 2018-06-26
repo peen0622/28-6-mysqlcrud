@@ -8,8 +8,8 @@
 <%
 request.setCharacterEncoding("euc-kr");// 한글이 깨지지 않게 설정.
 
-String MemberName = request.getParameter("MemberName");	
-int MemberAge = Integer.parseInt(request.getParameter("MemberAge"));	//form에서 입력한 값을 받아서 변수에 대입
+String MemberName = request.getParameter("memberName");	
+int MemberAge = Integer.parseInt(request.getParameter("memberAge"));	//form에서 입력한 값을 받아서 변수에 대입
 
 System.out.println(MemberName+" : MemberName");
 System.out.println(MemberAge+" : MemberAge");
