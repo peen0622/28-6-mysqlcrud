@@ -1,4 +1,4 @@
-/*µ¥ÀÌÅÍº£ÀÌ½º Å×ÀÌºí
+/*ë°ì´í„°ë² ì´ìŠ¤ í…Œì´ë¸”
 	CREATE TABLE `teacher` (
 	`teacher_no` INT(10) NOT NULL AUTO_INCREMENT,
 	`teacher_name` VARCHAR(50) NOT NULL,
@@ -7,44 +7,44 @@
 )
 COLLATE='euckr_korean_ci'
 ENGINE=InnoDB*/
-//2018-06-26 ÀÌÀÀºó
-package service; //ÆĞÅ°Áö¸í
+//2018-06-26 ì´ì‘ë¹ˆ
+package service; //íŒ¨í‚¤ì§€ëª…
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-//java.sql.* (¾ÕÀÇ java.sql ºÎºĞÀ» »ı·«ÇÏ¿© ¾²±â À§ÇØ¼­ import ½ÃÄÑÁİ´Ï´Ù.)
+//java.sql.* (ì•ì˜ java.sql ë¶€ë¶„ì„ ìƒëµí•˜ì—¬ ì“°ê¸° ìœ„í•´ì„œ import ì‹œì¼œì¤ë‹ˆë‹¤.) í´
 public class TeacherDao {
 	
-	public int insertTeacher(Teacher teacher) { //µ¥ÀÌÅÍº£ÀÌ½º¿¡ ÀÖ´Â teacher Å×ÀÌºí¿¡ ÇÑ ÇàÀÇ µ¥ÀÌÅÍ¸¦ ÀÔ·ÂÇÏ±â À§ÇÑ ¸Ş¼­µå
-		Connection conn = null; //µå¶óÀÌ¹ö ·ÎµùÀ» ÇÏ±â À§ÇÏ¿© ¸¸µé¾îÁØ °´Ã¼ÂüÁ¶º¯¼ö
-		PreparedStatement pstmt = null; //PreparedStatement Äõ¸®¹®À» ÀÛ¼ºÇÏ±â À§ÇÏ¿© ¸¸µé¾îÁØ °´Ã¼ÂüÁ¶º¯¼ö
-		int r = 0; //int data typeÀ¸·Î ¸®ÅÏÀ» ÇÏ±â À§ÇÏ¿© ¸¸µé¾îÁØ º¯¼ö
+	public int insertTeacher(Teacher teacher) { //ë°ì´í„°ë² ì´ìŠ¤ì— ìˆëŠ” teacher í…Œì´ë¸”ì— í•œ í–‰ì˜ ë°ì´í„°ë¥¼ ì…ë ¥í•˜ê¸° ìœ„í•œ ë©”ì„œë“œ
+		Connection conn = null; //ë“œë¼ì´ë²„ ë¡œë”©ì„ í•˜ê¸° ìœ„í•˜ì—¬ ë§Œë“¤ì–´ì¤€ ê°ì²´ì°¸ì¡°ë³€ìˆ˜
+		PreparedStatement pstmt = null; //PreparedStatement ì¿¼ë¦¬ë¬¸ì„ ì‘ì„±í•˜ê¸° ìœ„í•˜ì—¬ ë§Œë“¤ì–´ì¤€ ê°ì²´ì°¸ì¡°ë³€ìˆ˜
+		int r = 0; //int data typeìœ¼ë¡œ ë¦¬í„´ì„ í•˜ê¸° ìœ„í•˜ì—¬ ë§Œë“¤ì–´ì¤€ ë³€ìˆ˜
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //µå¶óÀÌ¹ö ·ÎµùÀ» ÇÒ µå¶óÀÌ¹ö¸í
+			Class.forName("com.mysql.jdbc.Driver"); //ë“œë¼ì´ë²„ ë¡œë”©ì„ í•  ë“œë¼ì´ë²„ëª…
 			
-			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL ÁÖ¼Ò
-			String dbUser = "mysqlcrudid"; //DB ¾ÆÀÌµğ
-			String dbPass = "mysqlcrudpw"; //DB ºñ¹Ğ¹øÈ£
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL ì£¼ì†Œ
+			String dbUser = "mysqlcrudid"; //DB ì•„ì´ë””
+			String dbPass = "mysqlcrudpw"; //DB ë¹„ë°€ë²ˆí˜¸
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
 			System.out.println(conn+ "<-- conn");
 			
-			pstmt = conn.prepareStatement("insert into teacher(teacher_name, teacher_age) values(?, ?)"); //teacher Å×ÀÌºí¿¡ insert Äõ¸®¹® ÀÛ¼º
-			pstmt.setString(1, teacher.getTeacherName()); //teacher Å×ÀÌºíÀÇ teacher_name¿¡ µé¾î°¥ °ª
-			pstmt.setInt(2, teacher.getTeacherAge()); //teacher Å×ÀÌºíÀÇ teacher_age¿¡ µé¾î°¥ °ª
+			pstmt = conn.prepareStatement("insert into teacher(teacher_name, teacher_age) values(?, ?)"); //teacher í…Œì´ë¸”ì— insert ì¿¼ë¦¬ë¬¸ ì‘ì„±
+			pstmt.setString(1, teacher.getTeacherName()); //teacher í…Œì´ë¸”ì˜ teacher_nameì— ë“¤ì–´ê°ˆ ê°’
+			pstmt.setInt(2, teacher.getTeacherAge()); //teacher í…Œì´ë¸”ì˜ teacher_ageì— ë“¤ì–´ê°ˆ ê°’
 
-			r = pstmt.executeUpdate(); //Äõ¸® ½ÇÇà°ªÀ» int r º¯¼ö¿¡ ´ëÀÔÇÕ´Ï´Ù. (½ÇÇàµÇ¸é 1ÀÌ ´ã±â°í ¾Æ´Ï¸é 0ÀÌ ´ã±é´Ï´Ù.)
+			r = pstmt.executeUpdate(); //ì¿¼ë¦¬ ì‹¤í–‰ê°’ì„ int r ë³€ìˆ˜ì— ëŒ€ì…í•©ë‹ˆë‹¤. (ì‹¤í–‰ë˜ë©´ 1ì´ ë‹´ê¸°ê³  ì•„ë‹ˆë©´ 0ì´ ë‹´ê¹ë‹ˆë‹¤.)
 			System.out.println(r+"<--r");
 			
-		} catch (ClassNotFoundException | SQLException e) { //Class ÆÄÀÏÀ» Ã£Áö ¸øÇÏ°Å³ª SQL¿¡¼­ ¿¹¿Ü°¡ ¹ß»ıÇÏ¿´À» ¶§
-			e.printStackTrace(); //¿¡·¯ ¸Ş¼¼ÁöÀÇ ¹ß»ı ±Ù¿øÁö¸¦ Ã£¾Æ¼­ ´Ü°èº°·Î ¿¡·¯¸¦ Ãâ·Â
+		} catch (ClassNotFoundException | SQLException e) { //Class íŒŒì¼ì„ ì°¾ì§€ ëª»í•˜ê±°ë‚˜ SQLì—ì„œ ì˜ˆì™¸ê°€ ë°œìƒí•˜ì˜€ì„ ë•Œ
+			e.printStackTrace(); //ì—ëŸ¬ ë©”ì„¸ì§€ì˜ ë°œìƒ ê·¼ì›ì§€ë¥¼ ì°¾ì•„ì„œ ë‹¨ê³„ë³„ë¡œ ì—ëŸ¬ë¥¼ ì¶œë ¥
 		} finally {
-			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {} //pstmtÀÇ °ªÀÌ nullÀÌ ¾Æ´Ò °æ¿ì pstmt¸¦ Á¾·á½ÃÄÑÁİ´Ï´Ù.
-			if (conn != null) try { conn.close(); } catch(SQLException e) {} //connÀÇ °ªÀÌ nullÀÌ ¾Æ´Ò °æ¿ì conn¸¦ Á¾·á½ÃÄÑÁİ´Ï´Ù.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {} //pstmtì˜ ê°’ì´ nullì´ ì•„ë‹ ê²½ìš° pstmtë¥¼ ì¢…ë£Œì‹œì¼œì¤ë‹ˆë‹¤.
+			if (conn != null) try { conn.close(); } catch(SQLException e) {} //connì˜ ê°’ì´ nullì´ ì•„ë‹ ê²½ìš° connë¥¼ ì¢…ë£Œì‹œì¼œì¤ë‹ˆë‹¤.
 		}
-		return r; //¸Ş¼­µå È£ÃâÇÑ °÷À¸·Î r º¯¼ö°¡ ¹İÈ¯µË´Ï´Ù.
+		return r; //ë©”ì„œë“œ í˜¸ì¶œí•œ ê³³ìœ¼ë¡œ r ë³€ìˆ˜ê°€ ë°˜í™˜ë©ë‹ˆë‹¤.
 	}
 }

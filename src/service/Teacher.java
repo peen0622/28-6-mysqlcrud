@@ -1,30 +1,30 @@
-//2018-06-26 ÀÌÀÀºó
-package service; //ÆĞÅ°Áö¸í
+//2018-06-26 ì´ì‘ë¹ˆ
+package service; //íŒ¨í‚¤ì§€ëª…
 
 public class Teacher {
-	private int teacherNo; //teacherÀÇ ¹øÈ£
-	private String teacherName; //teacherÀÇ ÀÌ¸§
-	private int teacherAge; //teacherÀÇ ³ªÀÌ
-	//ÇØ´ç Å¬·¡½º ³»¿¡¼­¸¸ »ç¿ëÇÏ±â À§ÇØ¼­ º¯¼ö¸¦ privateÀ» »ç¿ëÇÏ¿© ¸¸µé¾î Áİ´Ï´Ù.
+	private int teacherNo; //teacherì˜ ë²ˆí˜¸
+	private String teacherName; //teacherì˜ ì´ë¦„
+	private int teacherAge; //teacherì˜ ë‚˜ì´
+	//í•´ë‹¹ í´ë˜ìŠ¤ ë‚´ì—ì„œë§Œ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œ ë³€ìˆ˜ë¥¼ privateì„ ì‚¬ìš©í•˜ì—¬ ë§Œë“¤ì–´ ì¤ë‹ˆë‹¤.
 	
 	
-	//°°Àº ÇÁ·ÎÁ§Æ® ³»¿¡¼­ È£ÃâÇÏ±â À§ÇÏ¿© setter, getter ¸Ş¼­µå´Â publicÀ» »ç¿ëÇÏ¿© ¸¸µé¾î Áİ´Ï´Ù.
+	//ê°™ì€ í”„ë¡œì íŠ¸ ë‚´ì—ì„œ í˜¸ì¶œí•˜ê¸° ìœ„í•˜ì—¬ setter, getter ë©”ì„œë“œëŠ” publicì„ ì‚¬ìš©í•˜ì—¬ ë§Œë“¤ì–´ ì¤ë‹ˆë‹¤.
 	public int getTeacherNo() {
-		return teacherNo; //¸Ş¼­µå°¡ È£ÃâÇÑ °÷À¸·Î ¹İÈ¯µË´Ï´Ù.
+		return teacherNo; //ë©”ì„œë“œê°€ í˜¸ì¶œí•œ ê³³ìœ¼ë¡œ ë°˜í™˜ë©ë‹ˆë‹¤.
 	}
 	public void setTeacherNo(int teacherNo) {
-		this.teacherNo = teacherNo; //¸Å°³º¯¼ö teacherNo¿¡ ´ã°ÜÀÖ´Â °ªÀ» Àü¿ªº¯¼ö teacherNo¿¡ ´ëÀÔÇÕ´Ï´Ù.
+		this.teacherNo = teacherNo; //ë§¤ê°œë³€ìˆ˜ teacherNoì— ë‹´ê²¨ìˆëŠ” ê°’ì„ ì „ì—­ë³€ìˆ˜ teacherNoì— ëŒ€ì…í•©ë‹ˆë‹¤.
 	}
 	public String getTeacherName() {
-		return teacherName; //¸Ş¼­µå°¡ È£ÃâÇÑ °÷À¸·Î ¹İÈ¯µË´Ï´Ù.
+		return teacherName; //ë©”ì„œë“œê°€ í˜¸ì¶œí•œ ê³³ìœ¼ë¡œ ë°˜í™˜ë©ë‹ˆë‹¤.
 	}
 	public void setTeacherName(String teacherName) {
-		this.teacherName = teacherName; //¸Å°³º¯¼ö teacherName¿¡ ´ã°ÜÀÖ´Â °ªÀ» Àü¿ªº¯¼ö teacherName¿¡ ´ëÀÔÇÕ´Ï´Ù.
+		this.teacherName = teacherName; //ë§¤ê°œë³€ìˆ˜ teacherNameì— ë‹´ê²¨ìˆëŠ” ê°’ì„ ì „ì—­ë³€ìˆ˜ teacherNameì— ëŒ€ì…í•©ë‹ˆë‹¤.
 	}
 	public int getTeacherAge() {
-		return teacherAge; //¸Ş¼­µå°¡ È£ÃâÇÑ °÷À¸·Î ¹İÈ¯µË´Ï´Ù.
+		return teacherAge; //ë©”ì„œë“œê°€ í˜¸ì¶œí•œ ê³³ìœ¼ë¡œ ë°˜í™˜ë©ë‹ˆë‹¤.
 	}
 	public void setTeacherAge(int teacherAge) {
-		this.teacherAge = teacherAge; //¸Å°³º¯¼ö teacherAge¿¡ ´ã°ÜÀÖ´Â °ªÀ» Àü¿ªº¯¼ö teacherAge¿¡ ´ëÀÔÇÕ´Ï´Ù.
+		this.teacherAge = teacherAge; //ë§¤ê°œë³€ìˆ˜ teacherAgeì— ë‹´ê²¨ìˆëŠ” ê°’ì„ ì „ì—­ë³€ìˆ˜ teacherAgeì— ëŒ€ì…í•©ë‹ˆë‹¤.
 	}
 }
