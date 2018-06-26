@@ -1,4 +1,4 @@
-//±èÈ£¼ø 2018.06.26 (È­)
+//Kimhosoon 2018.06.26 (Tue)
 package service;
 
 public class Student {
