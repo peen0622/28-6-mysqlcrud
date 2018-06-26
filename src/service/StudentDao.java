@@ -1,4 +1,4 @@
-/*28기 김호순 2018.6.26(화요일)*/
+/*28기 김호순 2018.6.26(화)*/
 package service;	
 import java.sql.*;	// 드라이버 로딩에 핑요한 클래스들을 한번에 임포드 하였다. 
 import service.Student;	// service 패키지내 Student 클래스를 임포트 하였다.
