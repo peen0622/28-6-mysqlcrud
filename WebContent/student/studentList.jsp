@@ -1,4 +1,4 @@
-<!-- 김호순 2018. 7. 2(월요일) -->
+<!-- 김호순 2018. 7. 2(월요일.) -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="service.Student"%>
