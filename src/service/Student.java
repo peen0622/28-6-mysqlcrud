@@ -5,6 +5,13 @@ public class Student {
 	private int studentNo;
 	private String studentName;
 	private int studentAge;
+	private int lastPage; // 2018. 7.2 추가
+	public int getLastPage() {
+		return lastPage;
+	}
+	public void setLastPage(int lastPage) {
+		this.lastPage = lastPage;
+	}
 	public int getStudentNo() {
 		return studentNo;
 	}
