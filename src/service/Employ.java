@@ -5,8 +5,15 @@ public class Employ {	//private는 자신의 클래스내에서만 사용가능
 	private int employNo;	//private로 int 데이터 타입인 employ_no를 선언.
 	private String employNname;	//private로 String 데이터 타입인 employ_name를 선언
 	private int employAge;	//private로 int 데이터 타입인 employ_age를 선언.
+	private int lastPage; //마지막 페이지
 	
 	//public setter getter 메서드 선언
+	public int getLastPage() {
+		return lastPage;
+	}
+	public void setLastPage(int lastPage) {
+		this.lastPage = lastPage;
+	}
 	public int getEmployNo() {	//다른 클래스에서도 사용할수 있게 public으로 메서드 선언
 		return employNo;	//전역변수에 담긴 값이 리턴.
 	}

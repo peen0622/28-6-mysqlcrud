@@ -7,13 +7,13 @@ public class Member {		//private는 자신의 클래스내에서만 사용가능
 	private int memberAge;	//private로 int 데이터 타입인 member_age를 선언.
 	private int lastPage; //마지막 페이지
 	
+	//public setter getter 메서드 선언
 	public int getLastPage() {
 		return lastPage;
 	}
 	public void setLastPage(int lastPage) {
 		this.lastPage = lastPage;
 	}
-	//public setter getter 메서드 선언
 	public int getMemberNo() {	//다른 클래스에서도 사용할수 있게 public으로 메서드 선언
 		return memberNo;	//전역변수에 담긴 값이 리턴.
 	}

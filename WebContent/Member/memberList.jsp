@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>teacherList</title>
+		<title>memberList</title>
 		<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 	</head>
 	<body>
@@ -23,7 +23,7 @@
 					currentPage = Integer.parseInt(request.getParameter("currentPage")); //String currentPage를 형변환 하여 대입합니다.
 				}
 				MemberDao memberDao = new MemberDao();
-				ArrayList<Member> list = memberDao.selectMemberByPage(currentPage, 5);
+				ArrayList<Member> list = memberDao.selectMemberByPage(currentPage, 10);
 				
 				for(int i=0; i<list.size(); i++) {
 					Member member = list.get(i);

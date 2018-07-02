@@ -1,13 +1,13 @@
 <!-- 2018-07-02 이응빈 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="service.Teacher"%>
-<%@ page import="service.TeacherDao"%>
+<%@ page import="service.Employ"%>
+<%@ page import="service.EmployDao"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>teacherList</title>
+		<title>employList</title>
 		<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 	</head>
 	<body>
@@ -22,17 +22,17 @@
 				if(request.getParameter("currentPage") != null) { //받아 오는 currentPage의 값이 null이 아닐 때 실행됩니다.
 					currentPage = Integer.parseInt(request.getParameter("currentPage")); //String currentPage를 형변환 하여 대입합니다.
 				}
-				TeacherDao teacherDao = new TeacherDao();
-				ArrayList<Teacher> list = teacherDao.selectTeacherByPage(currentPage, 10);
+				EmployDao employDao = new EmployDao();
+				ArrayList<Employ> list = employDao.selectEmployByPage(currentPage, 10);
 				
 				for(int i=0; i<list.size(); i++) {
-					Teacher teacher = list.get(i);
+					Employ employ = list.get(i);
 			%>
 				
 				<tr>
-					<td class = "col1"><%=teacher.getTeacherNo()%></td>
-					<td class = "col1"><%=teacher.getTeacherName()%></td>
-					<td class = "col1"><%=teacher.getTeacherAge()%></td>
+					<td class = "col1"><%=employ.getEmployNo()%></td>
+					<td class = "col1"><%=employ.getEmployName()%></td>
+					<td class = "col1"><%=employ.getEmployAge()%></td>
 				</tr>
 				
 			<%
@@ -43,13 +43,13 @@
 			<%
 				if(currentPage > 1) {
 			%>
-					<a href="./teacherList.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
+					<a href="./employList.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
 			<%
 				}
-				Teacher teacher = list.get(0);
-				if(currentPage < teacher.getLastPage())	{
+				Employ employ = list.get(0);
+				if(currentPage < employ.getLastPage())	{
 			%>
-					<a href="./teacherList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+					<a href="./employList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
 			<%
 				}
 			%>
