@@ -1,0 +1,35 @@
+table {
+    border-collapse:collapse;
+    margin:0 auto;
+    width:100%;
+}
+tr {
+    height:30px;
+}
+th {
+    border-top:solid 2px #aaaaaa;
+    background-color:#eeeeee;
+}
+td {
+    border-bottom:solid 1px #dddddd;
+}
+td.col1 {
+    width:60px;
+    text-align:center;
+}
+td a:link {
+    text-decoration:none;
+    color:#444444;
+}
+td a:hover {
+    text-decoration:none;
+    color:#444444;
+}
+td a:visited {
+    text-decoration:none;
+    color:#444444;
+}
+td a:active {
+    text-decoration:none;
+    color:#444444;
+}
