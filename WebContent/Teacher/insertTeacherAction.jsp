@@ -19,6 +19,7 @@
 			
 			TeacherDao t = new TeacherDao(); //TeacherDao data type으로 t 객체참조변수를 선언하고 TeacherDao 생성자 메서드로 객체를(주소값) 생성하고 할당합니다.
 			t.insertTeacher(teacher); //t 객체참조변수의 주소값을 찾아가서 insertTeacher 메서드를 teacher 객체참조변수의 주소값을 대입하여 호출합니다.
+			response.sendRedirect(request.getContextPath()+"/Teacher/teacherList.jsp");
 		%>
 	</body>
 </html>
