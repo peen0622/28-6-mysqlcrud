@@ -8,7 +8,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 		<title>teacherList</title>
-		<link rel = "stylesheet" type = "text/css" href = "./css/teachList.css">
+		<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 	</head>
 	<body>
 		<table border="1">
@@ -23,7 +23,7 @@
 					currentPage = Integer.parseInt(request.getParameter("currentPage")); //String currentPage를 형변환 하여 대입합니다.
 				}
 				StudentDao StudentDao = new StudentDao();
-				ArrayList<Student> list = StudentDao.selectStudentByPage(currentPage, 5);
+				ArrayList<Student> list = StudentDao.selectStudentByPage(currentPage, 10);
 				
 				for(int i=0; i<list.size(); i++) {
 					Student student = list.get(i);
