@@ -16,6 +16,9 @@
 				<th>번호</th>
 				<th>이름</th>
 				<th>나이</th>
+				<th>주소 입력</th>
+				<th>삭제</th>
+				<th>수정</th>
 			</tr>
 			<%
 				int currentPage = 1; //현재 페이지
@@ -31,10 +34,12 @@
 				
 				<tr>
 					<td class = "col1"><%=teacher.getTeacherNo()%></td>
-					<td class = "col1"><%=teacher.getTeacherName()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/teacherAddrList.jsp?no=<%=teacher.getTeacherNo()%>"><%=teacher.getTeacherName()%></a></td>
 					<td class = "col1"><%=teacher.getTeacherAge()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/insertTeacherAddrForm.jsp?no=<%=teacher.getTeacherNo()%>">주소 입력</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/deleteTeacherAction.jsp?no=<%=teacher.getTeacherNo()%>">삭제</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/updateTeacherForm.jsp?no=<%=teacher.getTeacherNo()%>">수정</a></td>
 				</tr>
-				
 			<%
 				}
 			%>
@@ -54,5 +59,12 @@
 				}
 			%>
 		</div>
+		<form>
+			<div>
+				이름 :
+				<input type="text" name="searchWord">
+				<button type="button">검색</button>
+			</div>
+		</form>
 	</body>
 </html>

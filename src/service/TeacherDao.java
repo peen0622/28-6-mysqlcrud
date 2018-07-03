@@ -19,6 +19,104 @@ import java.util.ArrayList;
 //java.sql.* (앞의 java.sql 부분을 생략하여 쓰기 위해서 import 시켜줍니다.)
 public class TeacherDao {
 	
+	//teacher 테이블 수정
+	public void updateTeacher(Teacher t) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; //teacher 테이블의 행 수정
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("update teacher set teacher_name=?, teacher_age=? where teacher_no=?");
+			pstmt.setString(1, t.getTeacherName());
+			pstmt.setInt(2, t.getTeacherAge());
+			pstmt.setInt(3, t.getTeacherNo());
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+	}
+	
+	//teacher 테이블 수정 폼
+	public Teacher updateTeacherForm(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; //teacher 테이블의 행 수정 화면
+		ResultSet resultSet = null;
+		Teacher t = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("select teacher_name, teacher_age from teacher where teacher_no=?");
+			pstmt.setInt(1, no);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next()) {
+				t = new Teacher();
+				t.setTeacherName(resultSet.getString("teacher_name"));
+				t.setTeacherAge(resultSet.getInt("teacher_age"));
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+		return t;
+	}
+	
+	//teacher 테이블 삭제
+	public void deleteTeacher(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; //teacher_addr 테이블의 행 삭제
+		PreparedStatement pstmt2 = null; //teacher 테이블의 행 삭제
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid"; //DB 아이디
+			String dbPass = "mysqlcrudpw"; //DB 비밀번호
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("delete from teacher_addr where teacher_no=?");
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+			
+			pstmt2 = conn.prepareStatement("delete from teacher where teacher_no=?");
+			pstmt2.setInt(1, no);
+			pstmt2.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+	}
+	
+	//teacherList 페이징
 	public ArrayList<Teacher> selectTeacherByPage(int currentPage, int pagePerRow) {
 		ArrayList<Teacher> list = new ArrayList<Teacher>();
 		Connection connection = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
@@ -79,6 +177,7 @@ public class TeacherDao {
 		return list; // list 최대 pagePerRow~1
 	}
 	
+	//teacher 테이블 입력
 	public int insertTeacher(Teacher teacher) { //데이터베이스에 있는 teacher 테이블에 한 행의 데이터를 입력하기 위한 메서드
 		Connection conn = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
 		PreparedStatement pstmt = null; //PreparedStatement 쿼리문을 작성하기 위하여 만들어준 객체참조변수
