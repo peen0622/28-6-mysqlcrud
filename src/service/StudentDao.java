@@ -6,10 +6,11 @@ import service.Student;	// service 패키지내 Student 클래스를 임포트 �
 
 public class StudentDao {
 	
-	//입력
+	//이름 나이 입력
 	public int insertStudent(Student student) {	// 메서드명(insertStudent) , Student class data type 의 매개변수 student
 		Connection conn = null;	// 드라이버로딩에 필요한 클래스 의 변수 conn의 값을 초기화 하였다.
 		PreparedStatement pstmt = null;	// 드라이버로딩에 필요한 클래스 의 변수 pstmt의 값을 초기화 하였다.
+		int r = 0;
 		
 		try {	// 예외처리를 하기위한 try...catch...finally 문 시작
 			Class.forName("com.mysql.jdbc.Driver");	// 드라이버 로딩하기
@@ -34,7 +35,7 @@ public class StudentDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException ex) {}	//	pstmt 연결 종료 
 			if (conn != null) try { conn.close(); } catch(SQLException ex) {}	//	conn 연결 종료
 		}
-		return 0;
+		return r;
 	}
 	//조회
 	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow) {
@@ -95,4 +96,5 @@ public class StudentDao {
 			if (conn != null) try { conn.close(); } catch(SQLException e) {} //connection의 값이 null이 아닐 경우 connection를 종료시켜줍니다.
 		}
 		return list; // list 최대 pagePerRow~1
-	}}
+	}
+}
