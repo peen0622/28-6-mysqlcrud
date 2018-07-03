@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MemberDao {	
+	
 	public ArrayList<Member> selectMemberByPage(int currentPage, int pagePerRow) {
 		ArrayList<Member> list = new ArrayList<Member>();
 		Connection connection = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
@@ -76,11 +77,11 @@ public class MemberDao {
 		}
 		return list; // list 최대 pagePerRow~1
 	}
-	
+
 	public int insertMember(Member member){	//insertMemberDao 메서드 선언
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	//초기값 설정
-		int a = 0;
+		int r = 0;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
@@ -97,7 +98,7 @@ public class MemberDao {
 			pstmt.setString(1, member.getMemberName());	//변수 member에 대입된 주소값을 찾아가서 getMember_name메서드를 호출. 
 			pstmt.setInt(2, member.getMemberAge());		//리턴된 값이 ?에 대입.
 			
-			a = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
+			r = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
 			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 				System.out.println("오류 발생1");
 				e.printStackTrace();	
@@ -108,6 +109,114 @@ public class MemberDao {
 				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 			}
-		return a;
+		return r;
+	}
+	public void deleteMember(int no) {
+		Connection conn = null;	
+		PreparedStatement pstmt = null;	
+		PreparedStatement pstmt2 = null;	//초기값 설정
+	
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+			
+			pstmt2 = conn.prepareStatement("DELETE FROM member_addr WHERE member_no=?");
+			pstmt2.setInt(1, no);
+			
+			pstmt2.executeUpdate();
+			
+			pstmt = conn.prepareStatement("DELETE FROM member WHERE member_no=?");
+			pstmt.setInt(1, no);
+
+			pstmt.executeUpdate();
+			
+			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+				System.out.println("오류 발생1");
+				e.printStackTrace();	
+			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+				System.out.println("오류 발생2");
+				ex.printStackTrace();
+			}finally{	//예외가 발생하든 안하든 필수로 실행.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+			}
+	}
+	public Member updateMemberForm(int no) {
+		Connection conn = null;	
+		PreparedStatement pstmt = null;	
+		ResultSet resultSet = null;
+		
+		Member m = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+			
+			pstmt = conn.prepareStatement("select * from member where member_no=?");
+			pstmt.setInt(1, no);
+
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next()) {
+				m = new Member();
+				m.setMemberName(resultSet.getString("Member_name"));
+				m.setMemberAge(resultSet.getInt("member_age"));
+			}
+			
+			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+				System.out.println("오류 발생1");
+				e.printStackTrace();	
+			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+				System.out.println("오류 발생2");
+				ex.printStackTrace();
+			}finally{	//예외가 발생하든 안하든 필수로 실행.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+			}
+		return m;
+	}
+	
+	public void updateMember(Member m) {
+		Connection conn = null;	
+		PreparedStatement pstmt = null;	
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+	
+			pstmt = conn.prepareStatement("UPDATE member SET member_name=?, member_age=? where member_no=?");
+			pstmt.setString(1, m.getMemberName());
+			pstmt.setInt(2, m.getMemberAge());
+			pstmt.setInt(3, m.getMemberNo());
+	
+			pstmt.executeUpdate();
+			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+				System.out.println("오류 발생1");
+				e.printStackTrace();	
+			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+				System.out.println("오류 발생2");
+				ex.printStackTrace();
+			}finally{	//예외가 발생하든 안하든 필수로 실행.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+			}
 	}
 }
