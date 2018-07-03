@@ -1,4 +1,4 @@
-<!-- 28기 김호순 2018.7.3(화) -->
+<!-- 28기 김호순 2018.7.3(화요일) -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>

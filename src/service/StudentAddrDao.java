@@ -1,4 +1,4 @@
-//28 김호순 2018.7.3(화)
+//28 김호순 2018.7.3(화요일)
 package service;
 
 import java.sql.Connection;
