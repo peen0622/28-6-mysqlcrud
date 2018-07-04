@@ -16,6 +16,9 @@
 				<th>번호</th>
 				<th>이름</th>
 				<th>나이</th>
+				<th>주소입력</th>
+				<th>삭제</th>
+				<th>수정</th>
 			</tr>
 			<%
 				int currentPage = 1; //현재 페이지
@@ -31,8 +34,11 @@
 				
 				<tr>
 					<td class = "col1"><%=employ.getEmployNo()%></td>
-					<td class = "col1"><%=employ.getEmployName()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Employ/employAddrList.jsp?no=<%=employ.getEmployNo()%>"><%=employ.getEmployName()%></a></td>
 					<td class = "col1"><%=employ.getEmployAge()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Employ/insertEmployAddrForm.jsp?no=<%=employ.getEmployNo()%>">주소입력</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Employ/deleteEmploy.jsp?no=<%=employ.getEmployNo()%>">삭제</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Employ/updateEmployForm.jsp?no=<%=employ.getEmployNo()%>">수정</a></td>
 				</tr>
 				
 			<%

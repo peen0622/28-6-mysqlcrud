@@ -68,12 +68,12 @@ public class EmployDao {
 				list.add(employ);
 			}
 			
-		} catch (ClassNotFoundException | SQLException e) { //Class 파일을 찾지 못하거나 SQL에서 예외가 발생하였을 때
-			e.printStackTrace(); //에러 메세지의 발생 근원지를 찾아서 단계별로 에러를 출력
+		} catch (ClassNotFoundException | SQLException ea) { //Class 파일을 찾지 못하거나 SQL에서 예외가 발생하였을 때
+			ea.printStackTrace(); //에러 메세지의 발생 근원지를 찾아서 단계별로 에러를 출력
 		} finally {
-			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {} //resultSet의 값이 null이 아닐 경우 resultSet를 종료시켜줍니다.
-			if (statement != null) try { statement.close(); } catch(SQLException e) {} //statement의 값이 null이 아닐 경우 statement를 종료시켜줍니다.
-			if (connection != null) try { connection.close(); } catch(SQLException e) {} //connection의 값이 null이 아닐 경우 connection를 종료시켜줍니다.
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException ea) {} //resultSet의 값이 null이 아닐 경우 resultSet를 종료시켜줍니다.
+			if (statement != null) try { statement.close(); } catch(SQLException ea) {} //statement의 값이 null이 아닐 경우 statement를 종료시켜줍니다.
+			if (connection != null) try { connection.close(); } catch(SQLException ea) {} //connection의 값이 null이 아닐 경우 connection를 종료시켜줍니다.
 		}
 		return list; // list 최대 pagePerRow~1
 	}
@@ -101,16 +101,125 @@ public class EmployDao {
 			
 			a = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
 			System.out.println(a+" : 쿼리실행값");
-			} catch (ClassNotFoundException e) { //드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			} catch (ClassNotFoundException ea) { //드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 				System.out.println("오류 발생1");
-				e.printStackTrace();
+				ea.printStackTrace();
 			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
 				System.out.println("오류 발생2");
 				ex.printStackTrace();
 			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
 			}
 		return a;
+	}
+	public void deleteEmploy(int no) {
+		Connection conn = null;	
+		PreparedStatement pstmt = null;	
+		PreparedStatement pstmt2 = null;	//초기값 설정
+	
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+			
+			pstmt2 = conn.prepareStatement("DELETE FROM employ_addr WHERE employ_no=?");
+			pstmt2.setInt(1, no);
+			
+			pstmt2.executeUpdate();
+			
+			pstmt = conn.prepareStatement("DELETE FROM employ WHERE employ_no=?");
+			pstmt.setInt(1, no);
+
+			pstmt.executeUpdate();
+			
+			} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+				System.out.println("오류 발생1");
+				ea.printStackTrace();	
+			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+				System.out.println("오류 발생2");
+				ex.printStackTrace();
+			}finally{	//예외가 발생하든 안하든 필수로 실행.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+			}
+	}
+	
+	public Employ updateEmployForm(int no) {
+		Connection conn = null;	
+		PreparedStatement pstmt = null;	
+		ResultSet resultSet = null;
+		
+		Employ e = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+			
+			pstmt = conn.prepareStatement("select * from employ where employ_no=?");
+			pstmt.setInt(1, no);
+
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next()) {
+				e = new Employ();
+				e.setEmployName(resultSet.getString("employ_name"));
+				e.setEmployAge(resultSet.getInt("employ_age"));
+			}
+			
+			} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+				System.out.println("오류 발생1");
+				ea.printStackTrace();	
+			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+				System.out.println("오류 발생2");
+				ex.printStackTrace();
+			}finally{	//예외가 발생하든 안하든 필수로 실행.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+			}
+		return e;
+	}
+	
+	public void updateEmploy(Employ e) {
+		Connection conn = null;	
+		PreparedStatement pstmt = null;	
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+	
+			pstmt = conn.prepareStatement("UPDATE employ SET employ_name=?, employ_age=? where employ_no=?");
+			pstmt.setString(1, e.getEmployName());
+			pstmt.setInt(2, e.getEmployAge());
+			pstmt.setInt(3, e.getEmployNo());
+	
+			pstmt.executeUpdate();
+			} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+				System.out.println("오류 발생1");
+				ea.printStackTrace();	
+			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+				System.out.println("오류 발생2");
+				ex.printStackTrace();
+			}finally{	//예외가 발생하든 안하든 필수로 실행.
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+			}
 	}
 }
