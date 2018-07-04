@@ -1,4 +1,4 @@
-<!-- 김호순 2018. 7. 2(월요일.) -->
+<!-- 김호순 2018. 7. 2(월) -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="service.Student"%>
@@ -11,19 +11,22 @@
 		<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 	</head>
 	<body>
-		<table border="1">
+		<table>
 			<tr>
 				<th>번호</th>
 				<th>이름</th>
 				<th>나이</th>
+				<th>주소 입력</th>
+				<th>삭제</th>
+				<th>수정</th>
 			</tr>
 			<%
 				int currentPage = 1; //현재 페이지
 				if(request.getParameter("currentPage") != null) { //받아 오는 currentPage의 값이 null이 아닐 때 실행됩니다.
 					currentPage = Integer.parseInt(request.getParameter("currentPage")); //String currentPage를 형변환 하여 대입합니다.
 				}
-				StudentDao StudentDao = new StudentDao();
-				ArrayList<Student> list = StudentDao.selectStudentByPage(currentPage, 10);
+				StudentDao studentDao = new StudentDao();
+				ArrayList<Student> list = studentDao.selectStudentByPage(currentPage, 5);
 				
 				for(int i=0; i<list.size(); i++) {
 					Student student = list.get(i);
@@ -31,10 +34,12 @@
 				
 				<tr>
 					<td class = "col1"><%=student.getStudentNo()%></td>
-					<td class = "col1"><%=student.getStudentName()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Student/studentAddrList.jsp?no=<%=student.getStudentNo()%>"><%=student.getStudentName()%></a></td>
 					<td class = "col1"><%=student.getStudentAge()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Student/insertStudentAddrForm.jsp?no=<%=student.getStudentNo()%>">주소 입력</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Student/deleteStudentAction.jsp?no=<%=student.getStudentNo()%>">삭제</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Student/updateStudentForm.jsp?no=<%=student.getStudentNo()%>">수정</a></td>
 				</tr>
-				
 			<%
 				}
 			%>
@@ -54,5 +59,12 @@
 				}
 			%>
 		</div>
+		<form>
+			<div>
+				이름 :
+				<input type="text" name="searchWord">
+				<button type="button">검색</button>
+			</div>
+		</form>
 	</body>
 </html>
