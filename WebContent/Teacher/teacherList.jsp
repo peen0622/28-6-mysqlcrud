@@ -16,17 +16,25 @@
 				<th>번호</th>
 				<th>이름</th>
 				<th>나이</th>
-				<th>주소 입력</th>
+				<th>주소 입력</th> <!-- 다수 -->
+				<th>점수 입력</th>
+				<th>점수 보기</th>
 				<th>삭제</th>
 				<th>수정</th>
 			</tr>
 			<%
+				request.setCharacterEncoding("euc-kr");
 				int currentPage = 1; //현재 페이지
 				if(request.getParameter("currentPage") != null) { //받아 오는 currentPage의 값이 null이 아닐 때 실행됩니다.
 					currentPage = Integer.parseInt(request.getParameter("currentPage")); //String currentPage를 형변환 하여 대입합니다.
 				}
+				
+				String word ="";
+				if(request.getParameter("word") != null) {
+					word = request.getParameter("word");
+				}
 				TeacherDao teacherDao = new TeacherDao();
-				ArrayList<Teacher> list = teacherDao.selectTeacherByPage(currentPage, 10);
+				ArrayList<Teacher> list = teacherDao.selectTeacherByPage(currentPage, 10, word);
 				
 				for(int i=0; i<list.size(); i++) {
 					Teacher teacher = list.get(i);
@@ -37,6 +45,8 @@
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/teacherAddrList.jsp?no=<%=teacher.getTeacherNo()%>"><%=teacher.getTeacherName()%></a></td>
 					<td class = "col1"><%=teacher.getTeacherAge()%></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/insertTeacherAddrForm.jsp?no=<%=teacher.getTeacherNo()%>">주소 입력</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/insertTeacherScoreForm.jsp?no=<%=teacher.getTeacherNo()%>">점수 입력</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/teacherAndScoreList.jsp?no=<%=teacher.getTeacherNo()%>">점수 보기</a></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/deleteTeacherAction.jsp?no=<%=teacher.getTeacherNo()%>">삭제</a></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/updateTeacherForm.jsp?no=<%=teacher.getTeacherNo()%>">수정</a></td>
 				</tr>
@@ -44,7 +54,7 @@
 				}
 			%>
 		</table>
-		<div class = "col1"> 
+		<div class = "col1">
 			<%
 				if(currentPage > 1) {
 			%>
@@ -59,11 +69,11 @@
 				}
 			%>
 		</div>
-		<form>
+		<form action="<%= request.getContextPath() %>/Teacher/teacherList.jsp" method="post">
 			<div>
 				이름 :
-				<input type="text" name="searchWord">
-				<button type="button">검색</button>
+				<input type="text" name="word">
+				<button type="submit">검색</button>
 			</div>
 		</form>
 	</body>

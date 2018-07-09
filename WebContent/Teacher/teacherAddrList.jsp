@@ -14,6 +14,8 @@
 		<table>
 			<tr>
 				<th>주소</th>
+				<th>삭제</th>
+				<th>수정</th>
 			</tr>
 				<%
 					int no = Integer.parseInt(request.getParameter("no"));
@@ -22,6 +24,8 @@
 				%>
 				<tr>
 					<td class = "col1"><%=teacherAddr.getTeacherAddrContent()%></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/deleteTeacherAddrAction.jsp?no=<%=no%>">삭제</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Teacher/updateTeacherAddrForm.jsp?no=<%=no%>">수정</a></td>
 				</tr>
 		</table>
 	</body>

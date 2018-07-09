@@ -3,8 +3,15 @@ package service;
 
 public class TeacherAddr {
 	private int teacherAddrNo;
+	private int teacherNo;
 	private String teacherAddrContent;
 	
+	public int getTeacherNo() {
+		return teacherNo;
+	}
+	public void setTeacherNo(int teacherNo) {
+		this.teacherNo = teacherNo;
+	}
 	public int getTeacherAddrNo() {
 		return teacherAddrNo;
 	}

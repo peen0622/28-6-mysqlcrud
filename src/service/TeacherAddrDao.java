@@ -8,6 +8,95 @@ import java.sql.SQLException;
 
 public class TeacherAddrDao {
 	
+	//teacher_addr 테이블 수정
+	public void updateTeacherAddr(TeacherAddr t) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("update teacher_addr set teacher_addr_content=? where teacher_no=?");
+			pstmt.setString(1, t.getTeacherAddrContent());
+			pstmt.setInt(2, t.getTeacherNo());
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+	}
+	
+	//teacher_addr 테이블 수정 폼
+		public TeacherAddr updateTeacherAddrForm(int no) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet resultSet = null;
+			TeacherAddr t = null;
+			
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				
+				String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+				String dbUser = "mysqlcrudid";
+				String dbPass = "mysqlcrudpw";
+				
+				conn = DriverManager.getConnection(URL, dbUser, dbPass);
+				System.out.println(conn+ "<-- conn");
+				
+				pstmt = conn.prepareStatement("select teacher_addr_content from teacher_addr where teacher_no=?");
+				pstmt.setInt(1, no);
+				resultSet = pstmt.executeQuery();
+				
+				if(resultSet.next()) {
+					t = new TeacherAddr();
+					t.setTeacherAddrContent(resultSet.getString("teacher_addr_content"));
+				}
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+				if (conn != null) try { conn.close(); } catch(SQLException e) {}
+			}
+			return t;
+		}
+		
+	//teacher_addr 테이블 한 행 삭제
+	public void deleteTeacherAddr(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; //teacher_addr 테이블의 행 삭제
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid"; //DB 아이디
+			String dbPass = "mysqlcrudpw"; //DB 비밀번호
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("delete from teacher_addr where teacher_no=?");
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+	}
+	
 	//teacher_addr 테이블 teacher_addr_content 데이터
 	public TeacherAddr selectTeacherAddr(int no) {
 		Connection conn = null;
