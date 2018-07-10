@@ -13,9 +13,11 @@
 	<table border="1">
 		<tr>
 			<th>주소</th>
+			<th>수정</th>
+			<th>삭제</th>
 		</tr>
 		<%
-			int no = Integer.parseInt(request.getParameter("no"));
+			int no = Integer.parseInt(request.getParameter("no"));	// 형변환 하여  정수형으로 할당
 			System.out.println(no + "<---no");
 			StudentAddrDao s = new StudentAddrDao();
 			StudentAddr studentAddr = s.selectStudentAddr(no);
@@ -23,6 +25,8 @@
 		%>
 		<tr>
 			<td><%= studentAddr.getStudentAddrContent() %></td>
+			<td><a href="<%= request.getContextPath() %>/Student/updateStudentAddrForm.jsp?no=<%=no%>">수정</a></td>
+			<td><a href="<%= request.getContextPath() %>/Student/deleteStudentAddrAction.jsp?no=<%=no%>">삭제</a></td>
 		</tr>
 	</table>
 <%
