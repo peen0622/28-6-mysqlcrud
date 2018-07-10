@@ -1,7 +1,7 @@
-<!-- 2018-07-03 박원우 -->
+<!-- 2018.07.09 박원우 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="service.Member"%>
-<%@ page import="service.MemberDao"%>
+<%@ page import="service.MemberAddr"%>
+<%@ page import="service.MemberAddrDao"%>
 <%request.setCharacterEncoding("euc-kr");%>
 <!DOCTYPE html>
 <html>
@@ -12,19 +12,16 @@
 <body>
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
-	String name = request.getParameter("memberName");
-	int age = Integer.parseInt(request.getParameter("memberAge"));
+	String memberAddrContent = request.getParameter("memberAddrContent");
 
-	Member m = new Member();
-	m.setMemberNo(no);
-	m.setMemberName(name);
-	m.setMemberAge(age);
+	MemberAddr ma = new MemberAddr();
+	ma.setMemberAddrNo(no);
+	ma.setMemberAddrContent(memberAddrContent);
 	
-	MemberDao ma = new MemberDao();
-	ma.updateMember(m);
+	MemberAddrDao madao = new MemberAddrDao();
+	madao.updateAddrMember(ma,no);
 	
 	response.sendRedirect(request.getContextPath()+"/Member/memberList.jsp");
-
 %>
 </body>
 </html>

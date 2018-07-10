@@ -16,17 +16,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MemberDao {	
+public class MemberDao {
 	
-	public ArrayList<Member> selectMemberByPage(int currentPage, int pagePerRow) {
+	public ArrayList<Member> selectMemberByPage(int currentPage, int pagePerRow, String word) {
+		
+		//word :
+		//"" -> 쿼리
+		//"검색단어" -> 쿼리
+		//분기문 필요
+		//요규사항 -> 동적쿼리
+		
 		ArrayList<Member> list = new ArrayList<Member>();
 		Connection connection = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
 		PreparedStatement statement = null; //테이블의 페이지를 나누는 쿼리문을 작성하기 위하여 사용하였음
 		PreparedStatement statement2 = null; //테이블의 전체 행을 구하는 쿼리문을 작성하기 위하여 사용하였음
 		ResultSet resultSet = null; //테이블의 페이지를 나누어진 결과 값을 가지고 오기 위하여 사용하였음
 		ResultSet resultSet2 = null; //테이블의 전체 행의 결과 값을 가지고 오기 위하여 사용하였음
-		String sql = "select member_no, member_name, member_age from member order by member_no limit ?, ?"; //테이블 페이지 나누기
-		String sql2 = "select count(member_no) from member"; //테이블의 전체 행의 수 구하기
+		String sql = "select member_no, member_name, member_age from member order by member_no limit ?, ?";
+		String sql2 = "select count(member_no) from member";
+		String sql3 = "select member_no, member_name, member_age from member where member_name like ? order by member_no limit ?, ?";
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
@@ -36,7 +44,7 @@ public class MemberDao {
 			String dbPass = "mysqlcrudpw"; //DB 비밀번호
 			
 			connection = DriverManager.getConnection(URL, dbUser, dbPass);
-			
+	
 			statement2 = connection.prepareStatement(sql2);
 			resultSet2 = statement2.executeQuery();
 			
@@ -54,9 +62,18 @@ public class MemberDao {
 				lastPage = row / pagePerRow + 1; //마지막 페이지 = (테이블의 전체 행의 수 / 페이지 당 보여지는 갯수) + 1
 			}
 			
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, startRow);
-			statement.setInt(2, pagePerRow);
+			if(word.equals("")) {
+				statement = connection.prepareStatement(sql);
+				statement.setInt(1, startRow);
+				statement.setInt(2, pagePerRow);
+			}else {
+				statement = connection.prepareStatement(sql3);
+				statement.setString(1, "%"+word+"%");
+				statement.setInt(2, startRow);
+				statement.setInt(3, pagePerRow);
+			}
+			
+			
 			resultSet = statement.executeQuery();
 			
 			while(resultSet.next()) {

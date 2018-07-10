@@ -29,6 +29,6 @@ Member m = mdao.updateMemberForm(no);
 					<td><input type="submit" value="¼öÁ¤"></td>
 				</tr>
 			</table>
-		</form>
+</form>
 </body>
 </html>
