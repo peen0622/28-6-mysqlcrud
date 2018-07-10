@@ -19,6 +19,7 @@
 			ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
 			list = teacherScoreDao.selectTeacherListAboveAvg();
 		%>
+		<div class = "col1"><a href="<%= request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">전체 점수 리스트</a></div>
 		<div>
 			평균 : <%=scoreAvg%>
 		</div>

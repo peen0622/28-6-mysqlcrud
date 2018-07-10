@@ -15,7 +15,7 @@
 			TeacherDao t = new TeacherDao();
 			t.deleteTeacher(no);
 			
-			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAddrList.jsp");
+			response.sendRedirect(request.getContextPath()+"/Teacher/teacherList.jsp");
 		%>
 	</body>
 </html>

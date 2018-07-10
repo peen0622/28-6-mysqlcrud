@@ -169,11 +169,6 @@ public class TeacherDao {
 			String dbPass = "mysqlcrudpw"; //DB 비밀번호
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
-			System.out.println(conn+ "<-- conn");
-			
-			pstmt = conn.prepareStatement("delete from teacher_addr where teacher_no=?");
-			pstmt.setInt(1, no);
-			pstmt.executeUpdate();
 			
 			pstmt2 = conn.prepareStatement("delete from teacher where teacher_no=?");
 			pstmt2.setInt(1, no);
@@ -183,6 +178,7 @@ public class TeacherDao {
 			e.printStackTrace();
 		} finally {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
 	}

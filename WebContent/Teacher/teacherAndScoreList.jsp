@@ -23,9 +23,14 @@
 			</tr>
 			<%
 				request.setCharacterEncoding("euc-kr");
+				int currentPage = 1; //현재 페이지
+				
+				if(request.getParameter("currentPage") != null) {
+					currentPage = Integer.parseInt(request.getParameter("currentPage"));
+				}
 
 				TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored();
+				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored(currentPage, 10);
 				
 				for(int i=0; i<list.size(); i++) {
 					TeacherAndScore teacherAndScore = list.get(i);
@@ -41,5 +46,20 @@
 				}
 			%>
 		</table>
+		<div class = "col1">
+			<%
+				if(currentPage > 1) {
+			%>
+					<a href="./teacherAndScoreList.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
+			<%
+				}
+				TeacherAndScore teacherAndScore= list.get(0);
+				if(currentPage < teacherAndScore.getTeacher().getLastPage())	{
+			%>
+					<a href="./teacherAndScoreList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+			<%
+				}
+			%>
+		</div>
 	</body>
 </html>
