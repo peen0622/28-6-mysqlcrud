@@ -1,3 +1,4 @@
+//2018-07-10 이응빈
 package service;
 
 import java.sql.Connection;
@@ -11,7 +12,9 @@ public class TeacherAddrDao {
 	//teacher_addr 테이블 수정
 	public void updateTeacherAddr(TeacherAddr t) {
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet resultSet = null;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -21,17 +24,29 @@ public class TeacherAddrDao {
 			String dbPass = "mysqlcrudpw";
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
-			System.out.println(conn+ "<-- conn");
 			
-			pstmt = conn.prepareStatement("update teacher_addr set teacher_addr_content=? where teacher_no=?");
-			pstmt.setString(1, t.getTeacherAddrContent());
-			pstmt.setInt(2, t.getTeacherNo());
-			pstmt.executeUpdate();
+			pstmt1 = conn.prepareStatement("select teacher_no from teacher_addr where teacher_no=?");
+			pstmt1.setInt(1, t.getTeacherNo());
+			resultSet = pstmt1.executeQuery();
+			
+			if(resultSet.next()) {
+				pstmt2 = conn.prepareStatement("update teacher_addr set teacher_addr_content=? where teacher_no=?");
+				pstmt2.setString(1, t.getTeacherAddrContent());
+				pstmt2.setInt(2, t.getTeacherNo());
+			} else {
+				pstmt2 = conn.prepareStatement("insert into teacher_addr(teacher_no, teacher_addr_content) values(?, ?)");
+				pstmt2.setInt(1, t.getTeacherNo());
+				pstmt2.setString(2, t.getTeacherAddrContent());
+			}
+			
+			pstmt2.executeUpdate();
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
+			if (pstmt1 != null) try { pstmt1.close(); } catch(SQLException e) {}
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
 	}
@@ -51,7 +66,6 @@ public class TeacherAddrDao {
 				String dbPass = "mysqlcrudpw";
 				
 				conn = DriverManager.getConnection(URL, dbUser, dbPass);
-				System.out.println(conn+ "<-- conn");
 				
 				pstmt = conn.prepareStatement("select teacher_addr_content from teacher_addr where teacher_no=?");
 				pstmt.setInt(1, no);
@@ -60,6 +74,9 @@ public class TeacherAddrDao {
 				if(resultSet.next()) {
 					t = new TeacherAddr();
 					t.setTeacherAddrContent(resultSet.getString("teacher_addr_content"));
+				} else {
+					t = new TeacherAddr();
+					t.setTeacherAddrContent("주소를 입력해주세요!");
 				}
 				
 			} catch (ClassNotFoundException | SQLException e) {
@@ -112,16 +129,17 @@ public class TeacherAddrDao {
 			String dbPass = "mysqlcrudpw";
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
-			System.out.println(conn+ "<-- conn");
 			
 			pstmt = conn.prepareStatement("select teacher_addr_content from teacher_addr where teacher_no=?");
 			pstmt.setInt(1, no);
 			resultSet = pstmt.executeQuery();
-			System.out.println(resultSet+"<--resultSet");
 			
 			if(resultSet.next()) {
 				t = new TeacherAddr();
 				t.setTeacherAddrContent(resultSet.getString("teacher_addr_content"));
+			} else {
+				t = new TeacherAddr();
+				t.setTeacherAddrContent("주소를 입력해주세요!");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -146,7 +164,6 @@ public class TeacherAddrDao {
 			String dbPass = "mysqlcrudpw"; //DB 비밀번호
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
-			System.out.println(conn+ "<-- conn");
 			
 			pstmt = conn.prepareStatement("insert into teacher_addr(teacher_no, teacher_addr_content) values(?, ?)"); //teacher_addr 테이블에 insert 쿼리문 작성
 			pstmt.setInt(1, no); //teacher 테이블의 teacher_name에 들어갈 값

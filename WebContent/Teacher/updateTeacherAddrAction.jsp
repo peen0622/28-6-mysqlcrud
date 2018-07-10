@@ -17,7 +17,7 @@
 		
 			TeacherAddr t = new TeacherAddr();
 			t.setTeacherAddrContent(content);
-			t.setTeacherAddrNo(no);
+			t.setTeacherNo(no);
 			
 			TeacherAddrDao teacherDao = new TeacherAddrDao();
 			teacherDao.updateTeacherAddr(t);

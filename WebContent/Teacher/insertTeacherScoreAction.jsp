@@ -19,7 +19,7 @@
 			TeacherScoreDao t = new TeacherScoreDao();
 			t.insertTeacherScore(teacherScore, no);
 			
-			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAndScoreList.jsp?no="+no);
+			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAndScoreList.jsp");
 		%>
 	</body>
 </html>

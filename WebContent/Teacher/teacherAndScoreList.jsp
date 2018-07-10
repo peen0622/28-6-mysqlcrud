@@ -23,11 +23,9 @@
 			</tr>
 			<%
 				request.setCharacterEncoding("euc-kr");
-			
-				int no = Integer.parseInt(request.getParameter("no"));
 
 				TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored(no);
+				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored();
 				
 				for(int i=0; i<list.size(); i++) {
 					TeacherAndScore teacherAndScore = list.get(i);
