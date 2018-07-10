@@ -18,7 +18,9 @@ import java.util.ArrayList;
 
 public class EmployDao {
 	
-	public ArrayList<Employ> selectEmployByPage(int currentPage, int pagePerRow) {
+	//페이징 메서드, 이름 검색 메서드
+	public ArrayList<Employ> selectEmployByPage(int currentPage, int pagePerRow, String word) {
+		
 		ArrayList<Employ> list = new ArrayList<Employ>();
 		Connection connection = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
 		PreparedStatement statement = null; //테이블의 페이지를 나누는 쿼리문을 작성하기 위하여 사용하였음
@@ -27,6 +29,7 @@ public class EmployDao {
 		ResultSet resultSet2 = null; //테이블의 전체 행의 결과 값을 가지고 오기 위하여 사용하였음
 		String sql = "select employ_no, employ_name, employ_age from employ order by employ_no limit ?, ?"; //테이블 페이지 나누기
 		String sql2 = "select count(employ_no) from employ"; //테이블의 전체 행의 수 구하기
+		String sql3 = "select employ_no, employ_name, employ_age from employ where employ_name like ? order by employ_no limit ?, ?";
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
@@ -54,9 +57,17 @@ public class EmployDao {
 				lastPage = row / pagePerRow + 1; //마지막 페이지 = (테이블의 전체 행의 수 / 페이지 당 보여지는 갯수) + 1
 			}
 			
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, startRow);
-			statement.setInt(2, pagePerRow);
+			if(word.equals("")) {
+				statement = connection.prepareStatement(sql);
+				statement.setInt(1, startRow);
+				statement.setInt(2, pagePerRow);
+			}else {
+				statement = connection.prepareStatement(sql3);
+				statement.setString(1, "%"+word+"%");
+				statement.setInt(2, startRow);
+				statement.setInt(3, pagePerRow);
+			}
+			
 			resultSet = statement.executeQuery();
 			
 			while(resultSet.next()) {
@@ -82,7 +93,7 @@ public class EmployDao {
 	public int insertEmploy(Employ employ) {	//매개변수에 담긴 값은 객체주소값, 데이터 타입은 클래스
 		Connection conn = null;
 		PreparedStatement pstmt = null;	//초기값 설정
-		int a = 0;	//리턴값을 설정하기 위한 변수 선언
+		int r = 0;	//리턴값을 설정하기 위한 변수 선언
 		
 		try {	//예외가 발생하면 catch로 이동
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
@@ -99,8 +110,8 @@ public class EmployDao {
 			pstmt.setString(1, employ.getEmployName());	//변수 member에 대입된 주소값을 찾아가서 getMember_name메서드를 호출. 
 			pstmt.setInt(2, employ.getEmployAge());		//리턴된 값이 ?에 대입.
 			
-			a = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
-			System.out.println(a+" : 쿼리실행값");
+			r = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
+			System.out.println(r+" : 쿼리실행값");
 			} catch (ClassNotFoundException ea) { //드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 				System.out.println("오류 발생1");
 				ea.printStackTrace();
@@ -111,12 +122,12 @@ public class EmployDao {
 				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
 				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
 			}
-		return a;
+		return r;
 	}
+	//삭제 메서드
 	public void deleteEmploy(int no) {
 		Connection conn = null;	
-		PreparedStatement pstmt = null;	
-		PreparedStatement pstmt2 = null;	//초기값 설정
+		PreparedStatement pstmt = null;	//초기값 설정
 	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
@@ -127,11 +138,6 @@ public class EmployDao {
 			String dbPass = "mysqlcrudpw";
 	
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
-			
-			pstmt2 = conn.prepareStatement("DELETE FROM employ_addr WHERE employ_no=?");
-			pstmt2.setInt(1, no);
-			
-			pstmt2.executeUpdate();
 			
 			pstmt = conn.prepareStatement("DELETE FROM employ WHERE employ_no=?");
 			pstmt.setInt(1, no);
@@ -149,7 +155,7 @@ public class EmployDao {
 				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
 			}
 	}
-	
+	//업데이트 폼 메서드
 	public Employ updateEmployForm(int no) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	
@@ -190,7 +196,7 @@ public class EmployDao {
 			}
 		return e;
 	}
-	
+	//업데이트 메서드
 	public void updateEmploy(Employ e) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	

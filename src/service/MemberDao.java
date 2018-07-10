@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MemberDao {
-	
+	//페이징, 이름 검색
 	public ArrayList<Member> selectMemberByPage(int currentPage, int pagePerRow, String word) {
 		
 		//word :
@@ -94,7 +94,7 @@ public class MemberDao {
 		}
 		return list; // list 최대 pagePerRow~1
 	}
-
+	//회원 정보 입력
 	public int insertMember(Member member){	//insertMemberDao 메서드 선언
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	//초기값 설정
@@ -128,10 +128,10 @@ public class MemberDao {
 			}
 		return r;
 	}
+	//회원 삭제
 	public void deleteMember(int no) {
 		Connection conn = null;	
-		PreparedStatement pstmt = null;	
-		PreparedStatement pstmt2 = null;	//초기값 설정
+		PreparedStatement pstmt = null;	//초기값 설정
 	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
@@ -142,11 +142,6 @@ public class MemberDao {
 			String dbPass = "mysqlcrudpw";
 	
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
-			
-			pstmt2 = conn.prepareStatement("DELETE FROM member_addr WHERE member_no=?");
-			pstmt2.setInt(1, no);
-			
-			pstmt2.executeUpdate();
 			
 			pstmt = conn.prepareStatement("DELETE FROM member WHERE member_no=?");
 			pstmt.setInt(1, no);
@@ -164,6 +159,7 @@ public class MemberDao {
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 			}
 	}
+	//회원 수정 폼
 	public Member updateMemberForm(int no) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	
@@ -204,7 +200,7 @@ public class MemberDao {
 			}
 		return m;
 	}
-	
+	//회원 수정
 	public void updateMember(Member m) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	

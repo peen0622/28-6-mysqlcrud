@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MemberAddrDao {
-	
+	//회원 주소 입력
 	public int insertMemberAddr(MemberAddr memberAddr, int no) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;		//초기값 설정
@@ -85,7 +85,7 @@ public class MemberAddrDao {
 		}
 		return ma;
 	}
-	
+	//주소 삭제
 	public void deleteAddrMember(int no) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;		//초기값 설정
@@ -116,6 +116,7 @@ public class MemberAddrDao {
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 			}
 	}
+	//주소 업데이트 폼
 	public MemberAddr updateAddrMemberForm(int no) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	
@@ -141,6 +142,9 @@ public class MemberAddrDao {
 			if(resultSet.next()) {
 				ma = new MemberAddr();
 				ma.setMemberAddrContent(resultSet.getString("member_addr_content"));
+			}else {
+				ma = new MemberAddr();
+				ma.setMemberAddrContent("주소를 입력해 주세요!");
 			}
 			
 			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
@@ -155,10 +159,13 @@ public class MemberAddrDao {
 			}
 		return ma;
 	}
-	
+	//주소 업데이트
 	public void updateAddrMember(MemberAddr ma,int no) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
@@ -169,13 +176,28 @@ public class MemberAddrDao {
 			String dbPass = "mysqlcrudpw";
 	
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
-	
-			pstmt = conn.prepareStatement("UPDATE member_addr SET member_no=?, member_addr_content=? where member_no=?");
+			
+			pstmt = conn.prepareStatement("select member_addr_no from member_addr where member_no=?");
 			pstmt.setInt(1, no);
-			pstmt.setString(2, ma.getMemberAddrContent());
-			pstmt.setInt(3, no);
-	
-			pstmt.executeUpdate();
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				pstmt2 = conn.prepareStatement("UPDATE member_addr SET member_no=?, member_addr_content=? where member_no=?");
+				pstmt2.setInt(1, no);
+				pstmt2.setString(2, ma.getMemberAddrContent());
+				pstmt2.setInt(3, no);
+		
+				pstmt2.executeUpdate();
+			
+			}else {
+				pstmt3 = conn.prepareStatement("insert into member_addr(member_no, member_addr_content) values(?, ?)");
+				pstmt3.setInt(1, no);
+				pstmt3.setString(2, ma.getMemberAddrContent());
+				
+				pstmt3.executeUpdate();
+			}
+			
 			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 				System.out.println("오류 발생1");
 				e.printStackTrace();	
@@ -184,6 +206,8 @@ public class MemberAddrDao {
 				ex.printStackTrace();
 			}finally{	//예외가 발생하든 안하든 필수로 실행.
 				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+				if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}	//pstmt2종료
+				if (pstmt3 != null) try { pstmt3.close(); } catch(SQLException e) {}	//pstmt3종료
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 			}
 	}

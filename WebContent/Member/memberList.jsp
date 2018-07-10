@@ -1,4 +1,4 @@
-<!-- 2018-07-02 이응빈 -->
+<!-- 2018.07.10 박원우-->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="service.Member"%>
@@ -38,17 +38,15 @@
 				for(int i=0; i<list.size(); i++) {
 					Member member = list.get(i);
 			%>
-				
 				<tr>
 					<td class = "col1"><%=member.getMemberNo()%></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Member/memberAddrList.jsp?no=<%=member.getMemberNo()%>"><%=member.getMemberName()%></a></td>
 					<td class = "col1"><%=member.getMemberAge()%></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Member/insertMemberAddrForm.jsp?no=<%=member.getMemberNo()%>">주소입력</a></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=member.getMemberNo()%>">점수입력</a></td>
-					<td class = "col1"><a href="<%= request.getContextPath() %>/Member/deleteMember.jsp?no=<%=member.getMemberNo()%>">삭제</a></td>
+					<td class = "col1"><a href="<%= request.getContextPath() %>/Member/deleteMemberAction.jsp?no=<%=member.getMemberNo()%>">삭제</a></td>
 					<td class = "col1"><a href="<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=<%=member.getMemberNo()%>">수정</a></td>
 				</tr>
-				
 			<%
 				}
 			%>

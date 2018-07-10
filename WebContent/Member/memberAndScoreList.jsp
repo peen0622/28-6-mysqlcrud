@@ -19,7 +19,6 @@
 		<th>이름</th>
 		<th>나이</th>
 		<th>점수</th>
-		<th>회원목록</th>
 	</tr>
 <%
 	MemberScoreDao msdao = new MemberScoreDao();
@@ -33,7 +32,6 @@
 		<td class = "col1"><%=mas.getMember().getMemberName()%></td>
 		<td class = "col1"><%=mas.getMember().getMemberAge()%></td>
 		<td class = "col1"><%=mas.getMemberScore().getScore()%></td>
-		<td class = "col1"><a href="<%= request.getContextPath() %>/index.jsp">메인 화면</a></td>
 	</tr>
 <%
 }

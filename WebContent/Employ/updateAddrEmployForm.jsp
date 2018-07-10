@@ -1,7 +1,6 @@
-<!-- 2018.07.09 박원우 -->
+<!--2018.07.10 박원우  -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="service.MemberAddr"%>
-<%@ page import="service.MemberAddrDao"%>
+<%@ page import="service.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +11,14 @@
 <%
 int no = Integer.parseInt(request.getParameter("no"));
 
-MemberAddrDao mdao = new MemberAddrDao();
-MemberAddr ma = mdao.updateAddrMemberForm(no);
+EmployAddrDao edao = new EmployAddrDao();
+EmployAddr ea = edao.updateAddrEmployForm(no);
 %>
-<form action="<%= request.getContextPath() %>/Member/updateAddrMemberAction.jsp?no=<%=no %>" method="post">
+<form action="<%= request.getContextPath() %>/Employ/updateAddrEmployAction.jsp?no=<%=no %>" method="post">
 	<table border="1">
 		<tr>
 			<td>주소</td>
-			<td><input type="text" name="memberAddrContent" size="20" value="<%=ma.getMemberAddrContent()%>"></td>
+			<td><input type="text" name="employAddrContent" size="20" value="<%=ea.getEmployAddrContent()%>"></td>
 		<tr>
 			<td><input type="submit" value="수정"></td>
 		</tr>

@@ -1,4 +1,4 @@
-//2018.07.09 박원우
+/*2018.07.10 박원우*/
 package service;
 
 import java.sql.Connection;
@@ -8,16 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MemberScoreDao {
+public class EmployScoreDao {
 	Connection conn =null;
 	PreparedStatement pstmt =null;
 	PreparedStatement pstmt2 =null;
 	PreparedStatement pstmt3 =null;
 	ResultSet rs = null;
-	//회원 점수 리스트
-	public ArrayList<MemberAndScore> selectMemberAndScored(){
-		ArrayList<MemberAndScore> list = new ArrayList<MemberAndScore>();
-		String sql = "select ms.member_score_no ,ms.score ,ms.member_no ,m.member_name ,m.member_age from member_score ms inner join member m on ms.member_no = m.member_no";
+	
+	//점수 리스트 메서드
+	public ArrayList<EmployAndScore> selectEmployAndScored(){
+		ArrayList<EmployAndScore> list = new ArrayList<EmployAndScore>();
+		String sql = "select es.employ_score_no ,es.score ,es.employ_no ,e.employ_name ,e.employ_age from employ_score es inner join employ e on es.employ_no = e.employ_no";
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
@@ -33,20 +34,20 @@ public class MemberScoreDao {
 			rs = pstmt.executeQuery();
 	 		
 			while(rs.next()) {
-			Member member = new Member();
-			member.setMemberNo(rs.getInt("ms.member_no"));
-			member.setMemberName(rs.getString("member_name"));
-			member.setMemberAge(rs.getInt("member_age"));
+			Employ employ = new Employ();
+			employ.setEmployNo(rs.getInt("es.employ_no"));
+			employ.setEmployName(rs.getString("employ_name"));
+			employ.setEmployAge(rs.getInt("employ_age"));
 			
-			MemberScore memberScore = new MemberScore();
-			memberScore.setMemberScoreNo(rs.getInt("member_score_no"));
-			memberScore.setMemberNo(rs.getInt("member_no"));
-			memberScore.setScore(rs.getInt("score"));
+			EmployScore employScore = new EmployScore();
+			employScore.setEmployScoreNo(rs.getInt("employ_score_no"));
+			employScore.setEmployNo(rs.getInt("employ_no"));
+			employScore.setScore(rs.getInt("score"));
 			
-			MemberAndScore memberAndScore = new MemberAndScore();
-			memberAndScore.setMember(member);
-			memberAndScore.setMemberScore(memberScore);
-			list.add(memberAndScore);
+			EmployAndScore employAndScore = new EmployAndScore();
+			employAndScore.setEmploy(employ);
+			employAndScore.setEmployScore(employScore);
+			list.add(employAndScore);
 			}
 		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 			System.out.println("오류 발생1");
@@ -61,9 +62,9 @@ public class MemberScoreDao {
 		
 		return list;
 	}
-	//회원 점수 입력
-	public void insertMemberScore(MemberScore memberScore, int no) {
-		
+	//점수 입력 메서드
+	public void insertEmployScore(EmployScore employScore, int no) {
+			
 		try {
 		Class.forName("com.mysql.jdbc.Driver");
 		
@@ -74,20 +75,21 @@ public class MemberScoreDao {
 
 		conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
 		
-		pstmt = conn.prepareStatement("select member_score_no from member_score where member_no=?");	//member_score_no 를 찾기 위해 select.
+		pstmt = conn.prepareStatement("select employ_score_no from employ_score where employ_no=?");	//member_score_no 를 찾기 위해 select.
 		pstmt.setInt(1, no);
 		
 		rs = pstmt.executeQuery();
+		
 		if(rs.next()) {	//조회결과가 있을 경우 실행. 조회가 되면 값이 있는 것이기 때문에 update해줌
-		pstmt2 = conn.prepareStatement("update member_score set score=? where member_no=?");	//쿼리 준비
-		pstmt2.setInt(1, memberScore.getScore());
+		pstmt2 = conn.prepareStatement("update employ_score set score=? where employ_no=?");	//쿼리 준비
+		pstmt2.setInt(1, employScore.getScore());
 		pstmt2.setInt(2, no);
 	
 		pstmt2.executeUpdate();
 		}else {	//조회가 되지 않으면 값이 없는 것이기 때문에 insert 해줌.
-			pstmt3 = conn.prepareStatement("insert into member_score(member_no, score) values(?, ?)");
+			pstmt3 = conn.prepareStatement("insert into employ_score(employ_no, score) values(?, ?)");
 			pstmt3.setInt(1, no);
-			pstmt3.setInt(2, memberScore.getScore());
+			pstmt3.setInt(2, employScore.getScore());
 			
 			pstmt3.executeUpdate();
 		}
@@ -104,17 +106,17 @@ public class MemberScoreDao {
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 		}
 	}
-	//점수 평균 이상
-	public ArrayList<MemberAndScore> selectMemberListAboveAvg(){
+	//평균 점수 이상 조회하는 메서드
+	public ArrayList<EmployAndScore> selectEmployListAboveAvg(){
 		
-		ArrayList<MemberAndScore> list = new ArrayList<MemberAndScore>();
+		ArrayList<EmployAndScore> list = new ArrayList<EmployAndScore>();
 		
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/mysqlcrud?" + 
 				"useUnicode=true&characterEncoding=euckr";
 		String user = "mysqlcrudid";
 		String password = "mysqlcrudpw";
-		String sql = "select m.member_no, m.member_name, ms.score from member_score ms inner join member m on ms.member_no = m.member_no where ms.score>=(select avg(score) from member_score) order by ms.score DESC";
+		String sql = "select e.employ_no, e.employ_name, es.score from employ_score es inner join employ e on es.employ_no = e.employ_no where es.score>=(select avg(score) from employ_score) order by es.score DESC";
 		
 		try {
 			Class.forName(driver);
@@ -126,18 +128,18 @@ public class MemberScoreDao {
 			
 			while(rs.next()) {
 			
-				Member m = new Member();
-				m.setMemberNo(rs.getInt("m.member_no"));
-				m.setMemberName(rs.getString("m.member_name"));
+				Employ e = new Employ();
+				e.setEmployNo(rs.getInt("e.employ_no"));
+				e.setEmployName(rs.getString("e.employ_name"));
 				
-				MemberScore ms = new MemberScore();
-				ms.setScore(rs.getInt("ms.score"));
+				EmployScore es = new EmployScore();
+				es.setScore(rs.getInt("es.score"));
 				
-				MemberAndScore mas = new MemberAndScore();
-				mas.setMember(m);
-				mas.setMemberScore(ms);
+				EmployAndScore eas = new EmployAndScore();
+				eas.setEmploy(e);
+				eas.setEmployScore(es);
 		
-				list.add(mas);
+				list.add(eas);
 			}
 		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 			System.out.println("오류 발생1");
@@ -151,9 +153,9 @@ public class MemberScoreDao {
 		}
 		return list;
 	}
-	//점수 평균
+	//점수 평균 구하는 메서드
 	public int selectScoreAvg() {
-	
+		
 		int r = 0;
 	
 		String driver = "com.mysql.jdbc.Driver";
@@ -161,7 +163,7 @@ public class MemberScoreDao {
 				"useUnicode=true&characterEncoding=euckr";
 		String user = "mysqlcrudid";
 		String password = "mysqlcrudpw";
-		String sql = "select avg(score) from member_score";
+		String sql = "select avg(score) from employ_score";
 		
 		try {
 			Class.forName(driver);

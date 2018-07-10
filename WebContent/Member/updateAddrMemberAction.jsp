@@ -13,6 +13,8 @@
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
 	String memberAddrContent = request.getParameter("memberAddrContent");
+	System.out.println(memberAddrContent +" : 주소");
+	System.out.println(no +" : 번호");
 
 	MemberAddr ma = new MemberAddr();
 	ma.setMemberAddrNo(no);
@@ -21,7 +23,7 @@
 	MemberAddrDao madao = new MemberAddrDao();
 	madao.updateAddrMember(ma,no);
 	
-	response.sendRedirect(request.getContextPath()+"/Member/memberList.jsp");
+	response.sendRedirect(request.getContextPath()+"/Member/memberAddrList.jsp?no="+no);
 %>
 </body>
 </html>
