@@ -1,4 +1,4 @@
-/*28기 김호순 2018.6.26(화요일)*/
+/*28기 김호순 2018.7.9(월요일)*/
 package service;	
 import java.sql.*;	// 드라이버 로딩에 핑요한 클래스들을 한번에 임포드 하였다. 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class StudentDao {
 		return r;
 	}
 	//조회
-	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow) {
+	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow, String word) {
 		ArrayList<Student> list = new ArrayList<Student>();
 		Connection conn = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
 		PreparedStatement pstmt = null; 
@@ -47,6 +47,7 @@ public class StudentDao {
 		ResultSet rs2 = null; 
 		String sql = "select student_no, student_name, student_age from student order by student_no limit ?, ?";
 		String sql2 = "select count(student_no) from student"; //테이블의 전체 행의 수 구하기
+		String sql3 = "select student_no, student_name, student_age from student where student_name like ? order by student_no limit ?, ?";
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
@@ -73,12 +74,17 @@ public class StudentDao {
 			} else { //0이 아니었을 때
 				lastPage = row / pagePerRow + 1; //마지막 페이지 = (테이블의 전체 행의 수 / 페이지 당 보여지는 갯수) + 1
 			}
-			
+			if(word.equals("")) {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, pagePerRow);
+			}else {
+				pstmt = conn.prepareStatement(sql3);
+				pstmt.setString(1, "%" + word + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, pagePerRow);
+			}
 			rs = pstmt.executeQuery();
-			
 			while(rs.next()) {
 				Student student = new Student();
 				student.setStudentNo(rs.getInt("student_no"));
@@ -96,5 +102,101 @@ public class StudentDao {
 			if (conn != null) try { conn.close(); } catch(SQLException e) {} //connection의 값이 null이 아닐 경우 connection를 종료시켜줍니다.
 		}
 		return list; // list 최대 pagePerRow~1
+	}
+	//수정 폼
+	public Student updateStudentForm(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		ResultSet resultSet = null;
+		Student student = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("select student_name, student_age from student where student_no=?");	// 학생 번호를 찾아서 학생이름, 나이를 찾는 쿼리문
+			pstmt.setInt(1, no);
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next()) {	// 조건문을 통한 Student 클래스에서 가져온 값들을 셋팅
+				student = new Student();
+				student.setStudentName(resultSet.getString("student_name"));
+				student.setStudentAge(resultSet.getInt("student_age"));
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+		return student;
+	}
+	//수정 액션
+	public void updateStudent(Student student) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("update student set student_name=?, student_age=? where student_no=?");	// 학생 번호를 찾아 student 테이블에서 학생 이름, 나이를 수정하는 쿼리문
+			pstmt.setString(1, student.getStudentName());
+			pstmt.setInt(2, student.getStudentAge());
+			pstmt.setInt(3, student.getStudentNo());
+			System.out.println("학생이름---->" + student.getStudentName());
+			System.out.println("학생나이---->" + student.getStudentAge());
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {	// 예외처리
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
+	}
+	//테이블 삭제
+	public void deleteStudent(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		PreparedStatement pstmt2 = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
+			
+			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+			
+			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			System.out.println(conn+ "<-- conn");
+			
+			pstmt = conn.prepareStatement("delete from student_addr where student_no=?");	// 학생의 정보를 삭제하기 위해 자식테이블에 있는 주소를 먼저 삭제하는 쿼리문
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+			
+			pstmt2 = conn.prepareStatement("delete from student where student_no=?");	// 주소 삭제후 학생 정보를 삭제하는 쿼리문
+			pstmt2.setInt(1, no);
+			pstmt2.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
+		}
 	}
 }
