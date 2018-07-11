@@ -31,6 +31,7 @@ public class TeacherDao {
 		String sql1 = "select teacher_no, teacher_name, teacher_age from teacher order by teacher_no limit ?, ?"; //테이블 페이지 나누기
 		String sql2 = "select teacher_no, teacher_name, teacher_age from teacher where teacher_name like ? order by teacher_no limit ?, ?";
 		String sql3 = "select count(teacher_no) from teacher"; //테이블의 전체 행의 수 구하기
+		String sql4 = "select count(teacher_no) from teacher where teacher_name like ?"; //테이블의 검색 조건에 맞는 행의 수 구하기
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
@@ -41,12 +42,25 @@ public class TeacherDao {
 			
 			connection = DriverManager.getConnection(URL, dbUser, dbPass);
 			
-			statement2 = connection.prepareStatement(sql3);
-			resultSet2 = statement2.executeQuery();
-			
 			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
 			int row = 0; //테이블의 전체 행의 수
 			int lastPage = 0; //마지막 페이지
+			
+			if(word.equals("")) {
+				statement2 = connection.prepareStatement(sql3);
+				statement = connection.prepareStatement(sql1);
+				statement.setInt(1, startRow);
+				statement.setInt(2, pagePerRow);
+			} else {
+				statement2 = connection.prepareStatement(sql4);
+				statement2.setString(1, "%"+word+"%");
+				statement = connection.prepareStatement(sql2);
+				statement.setString(1, "%"+word+"%");
+				statement.setInt(2, startRow);
+				statement.setInt(3, pagePerRow);
+			}
+			
+			resultSet2 = statement2.executeQuery();
 			
 			if(resultSet2.next()) {
 				row = resultSet2.getInt("count(teacher_no)"); //테이블의 전체 행의 수 구하기
@@ -56,17 +70,6 @@ public class TeacherDao {
 				lastPage = row / pagePerRow; //마지막 페이지
 			} else { //0이 아니었을 때
 				lastPage = row / pagePerRow + 1; //마지막 페이지
-			}
-			
-			if(word.equals("")) {
-				statement = connection.prepareStatement(sql1);
-				statement.setInt(1, startRow);
-				statement.setInt(2, pagePerRow);
-			} else {
-				statement = connection.prepareStatement(sql2);
-				statement.setString(1, "%"+word+"%");
-				statement.setInt(2, startRow);
-				statement.setInt(3, pagePerRow);
 			}
 			
 			resultSet = statement.executeQuery();

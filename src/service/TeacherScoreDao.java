@@ -130,7 +130,7 @@ public class TeacherScoreDao {
 	}
 	
 	// teacher 테이블과 teacher_score 테이블 join
-	public ArrayList<TeacherAndScore> selectTeacherAndScored(int currentPage, int pagePerRow) {
+	public ArrayList<TeacherAndScore> selectTeacherAndScored(int currentPage, int pagePerRow, String word) {
 		ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -138,7 +138,9 @@ public class TeacherScoreDao {
 		ResultSet resultSet = null;
 		ResultSet resultSet2 = null;
 		String sql = "select t.teacher_no, teacher_name, teacher_age, score from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no order by teacher_no limit ?, ?";
-		String sql2 = "select count(teacher_no) from teacher_score"; //테이블의 전체 행의 수 구하기
+		String sql2 = "select t.teacher_no, teacher_name, teacher_age, score from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no where t.teacher_name like ? order by teacher_no limit ?, ?";
+		String sql3 = "select count(t.teacher_no) from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no"; //테이블의 전체 행의 수 구하기
+		String sql4 = "select count(t.teacher_no) from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no where t.teacher_name like ?"; //테이블의 검색 조건에 맞는 행의 수 구하기
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
@@ -149,15 +151,29 @@ public class TeacherScoreDao {
 			
 			connection = DriverManager.getConnection(URL, dbUser, dbPass);
 			
-			statement2 = connection.prepareStatement(sql2);
-			resultSet2 = statement2.executeQuery();
-			
 			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
-			int row = 0; //테이블의 전체 행의 수
+			int row = 0; //테이블의 행의 수
 			int lastPage = 0; //마지막 페이지
 			
+			if(word.equals("")) {
+				statement2 = connection.prepareStatement(sql3);
+				statement = connection.prepareStatement(sql);
+				statement.setInt(1, startRow);
+				statement.setInt(2, pagePerRow);
+			} else {
+				statement2 = connection.prepareStatement(sql4);
+				statement2.setString(1, "%"+word+"%");
+				statement = connection.prepareStatement(sql2);
+				statement.setString(1, "%"+word+"%");
+				statement.setInt(2, startRow);
+				statement.setInt(3, pagePerRow);
+			}
+			
+			
+			resultSet2 = statement2.executeQuery();
+			
 			if(resultSet2.next()) {
-				row = resultSet2.getInt("count(teacher_no)"); //테이블의 전체 행의 수 구하기
+				row = resultSet2.getInt("count(t.teacher_no)"); //테이블의 행의 수 구하기
 			}
 			
 			if(row % pagePerRow == 0) {
@@ -165,10 +181,6 @@ public class TeacherScoreDao {
 			} else { //0이 아니었을 때
 				lastPage = row / pagePerRow + 1; //마지막 페이지
 			}
-			
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, startRow);
-			statement.setInt(2, pagePerRow);
 			
 			resultSet = statement.executeQuery();
 			

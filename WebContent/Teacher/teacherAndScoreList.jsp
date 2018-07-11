@@ -28,9 +28,14 @@
 				if(request.getParameter("currentPage") != null) {
 					currentPage = Integer.parseInt(request.getParameter("currentPage"));
 				}
+				
+				String word ="";
+				if(request.getParameter("word") != null) {
+					word = request.getParameter("word");
+				}
 
 				TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored(currentPage, 10);
+				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored(currentPage, 10, word);
 				
 				for(int i=0; i<list.size(); i++) {
 					TeacherAndScore teacherAndScore = list.get(i);
@@ -61,5 +66,12 @@
 				}
 			%>
 		</div>
+		<form action="<%= request.getContextPath() %>/Teacher/teacherAndScoreList.jsp" method="post">
+			<div>
+				이름 :
+				<input type="text" name="word">
+				<button type="submit">검색</button>
+			</div>
+		</form>
 	</body>
 </html>
