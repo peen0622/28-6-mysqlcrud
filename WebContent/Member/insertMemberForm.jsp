@@ -7,7 +7,9 @@
 		<title>insertmemberForm</title>
 	</head>
 	<body>
-		<form action="<%= request.getContextPath() %>/Member/insertMemberAction.jsp" method="post">
+		<form
+			action="<%=request.getContextPath()%>/Member/insertMemberAction.jsp"
+			method="post">
 			<table border="1">
 				<tr>
 					<td>¿Ã∏ß</td>

@@ -2,16 +2,16 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
-<%
-	int no = Integer.parseInt(request.getParameter("no"));
-System.out.println(no+"<--no : form");
-%>
-<form action="<%= request.getContextPath() %>/Employ/insertEmployAddrAction.jsp?no=<%=no %>" method="post">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<%
+			int no = Integer.parseInt(request.getParameter("no"));
+			System.out.println(no+"<--no : form");
+		%>
+		<form action="<%= request.getContextPath() %>/Employ/insertEmployAddrAction.jsp?no=<%=no %>" method="post">
 			<table border="1">
 				<tr>
 					<td>주소 입력</td>
@@ -22,5 +22,5 @@ System.out.println(no+"<--no : form");
 				</tr>
 			</table>
 		</form>
-</body>
+	</body>
 </html>

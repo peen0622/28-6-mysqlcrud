@@ -112,16 +112,16 @@ public class EmployDao {
 			
 			r = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
 			System.out.println(r+" : 쿼리실행값");
-			} catch (ClassNotFoundException ea) { //드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				ea.printStackTrace();
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
-			}
+		} catch (ClassNotFoundException ea) { //드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			ea.printStackTrace();
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+		}
 		return r;
 	}
 	//삭제 메서드
@@ -144,16 +144,16 @@ public class EmployDao {
 
 			pstmt.executeUpdate();
 			
-			} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				ea.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
-			}
+		} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			ea.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+		}
 	}
 	//업데이트 폼 메서드
 	public Employ updateEmployForm(int no) {
@@ -184,16 +184,16 @@ public class EmployDao {
 				e.setEmployAge(resultSet.getInt("employ_age"));
 			}
 			
-			} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				ea.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
-			}
+		} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			ea.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+		}
 		return e;
 	}
 	//업데이트 메서드
@@ -217,15 +217,15 @@ public class EmployDao {
 			pstmt.setInt(3, e.getEmployNo());
 	
 			pstmt.executeUpdate();
-			} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				ea.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
-			}
+		} catch (ClassNotFoundException ea) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			ea.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException ea) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException ea) {}	//conn종료
+		}
 	}
 }

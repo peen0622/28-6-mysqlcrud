@@ -19,19 +19,13 @@ import java.util.ArrayList;
 public class MemberDao {
 	//페이징, 이름 검색
 	public ArrayList<Member> selectMemberByPage(int currentPage, int pagePerRow, String word) {
-		
-		//word :
-		//"" -> 쿼리
-		//"검색단어" -> 쿼리
-		//분기문 필요
-		//요규사항 -> 동적쿼리
-		
 		ArrayList<Member> list = new ArrayList<Member>();
 		Connection connection = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
 		PreparedStatement statement = null; //테이블의 페이지를 나누는 쿼리문을 작성하기 위하여 사용하였음
 		PreparedStatement statement2 = null; //테이블의 전체 행을 구하는 쿼리문을 작성하기 위하여 사용하였음
 		ResultSet resultSet = null; //테이블의 페이지를 나누어진 결과 값을 가지고 오기 위하여 사용하였음
 		ResultSet resultSet2 = null; //테이블의 전체 행의 결과 값을 가지고 오기 위하여 사용하였음
+		
 		String sql = "select member_no, member_name, member_age from member order by member_no limit ?, ?";
 		String sql2 = "select count(member_no) from member";
 		String sql3 = "select member_no, member_name, member_age from member where member_name like ? order by member_no limit ?, ?";
@@ -72,8 +66,6 @@ public class MemberDao {
 				statement.setInt(2, startRow);
 				statement.setInt(3, pagePerRow);
 			}
-			
-			
 			resultSet = statement.executeQuery();
 			
 			while(resultSet.next()) {
@@ -116,16 +108,16 @@ public class MemberDao {
 			pstmt.setInt(2, member.getMemberAge());		//리턴된 값이 ?에 대입.
 			
 			r = pstmt.executeUpdate();	//쿼리 실행, 실행 결과가 1이면 입력,0이면 입력실패
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 		return r;
 	}
 	//회원 삭제
@@ -148,16 +140,16 @@ public class MemberDao {
 
 			pstmt.executeUpdate();
 			
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 	}
 	//회원 수정 폼
 	public Member updateMemberForm(int no) {
@@ -188,16 +180,16 @@ public class MemberDao {
 				m.setMemberAge(resultSet.getInt("member_age"));
 			}
 			
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 		return m;
 	}
 	//회원 수정
@@ -221,15 +213,16 @@ public class MemberDao {
 			pstmt.setInt(3, m.getMemberNo());
 	
 			pstmt.executeUpdate();
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 	}
 }

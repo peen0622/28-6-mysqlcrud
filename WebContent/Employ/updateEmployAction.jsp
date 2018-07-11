@@ -3,13 +3,6 @@
 <%@ page import="service.Employ"%>
 <%@ page import="service.EmployDao"%>
 <%request.setCharacterEncoding("euc-kr");%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
 	String name = request.getParameter("employName");
@@ -24,7 +17,4 @@
 	ea.updateEmploy(e);
 	
 	response.sendRedirect(request.getContextPath()+"/Employ/employList.jsp");
-
 %>
-</body>
-</html>

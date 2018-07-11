@@ -105,16 +105,16 @@ public class EmployAddrDao {
 			
 			pstmt.executeUpdate();
 			
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 	}
 	//주소 업데이트 폼
 	public EmployAddr updateAddrEmployForm(int no) {
@@ -147,16 +147,16 @@ public class EmployAddrDao {
 				ea.setEmployAddrContent("주소를 입력해 주세요!");
 			}
 			
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 		return ea;
 	}
 	//주소 업데이트
@@ -198,17 +198,17 @@ public class EmployAddrDao {
 				pstmt3.executeUpdate();
 			}
 			
-			} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-				System.out.println("오류 발생1");
-				e.printStackTrace();	
-			} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-				System.out.println("오류 발생2");
-				ex.printStackTrace();
-			}finally{	//예외가 발생하든 안하든 필수로 실행.
-				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-				if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}	//pstmt2종료
-				if (pstmt3 != null) try { pstmt3.close(); } catch(SQLException e) {}	//pstmt3종료
-				if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-			}
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}	//pstmt2종료
+			if (pstmt3 != null) try { pstmt3.close(); } catch(SQLException e) {}	//pstmt3종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
 	}
 }

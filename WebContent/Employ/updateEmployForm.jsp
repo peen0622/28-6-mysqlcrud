@@ -4,18 +4,18 @@
 <%@ page import="service.EmployDao"%>
 <!DOCTYPE htm>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
-<%
-int no = Integer.parseInt(request.getParameter("no"));
-
-EmployDao edao = new EmployDao();
-Employ e = edao.updateEmployForm(no);
-%>
-<form action="<%= request.getContextPath() %>/Employ/updateEmployAction.jsp?no=<%=no %>" method="post">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<%
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			EmployDao edao = new EmployDao();
+			Employ e = edao.updateEmployForm(no);
+		%>
+		<form action="<%= request.getContextPath() %>/Employ/updateEmployAction.jsp?no=<%=no %>" method="post">
 			<table border="1">
 				<tr>
 					<td>이름</td>
@@ -30,5 +30,5 @@ Employ e = edao.updateEmployForm(no);
 				</tr>
 			</table>
 		</form>
-</body>
+	</body>
 </html>

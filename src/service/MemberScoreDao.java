@@ -58,39 +58,39 @@ public class MemberScoreDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 		}
-		
 		return list;
 	}
 	//회원 점수 입력
 	public void insertMemberScore(MemberScore memberScore, int no) {
 		
 		try {
-		Class.forName("com.mysql.jdbc.Driver");
-		
-		String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
-				"useUnicode=true&characterEncoding=euckr";
-		String dbUser = "mysqlcrudid";
-		String dbPass = "mysqlcrudpw";
-
-		conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
-		
-		pstmt = conn.prepareStatement("select member_score_no from member_score where member_no=?");	//member_score_no 를 찾기 위해 select.
-		pstmt.setInt(1, no);
-		
-		rs = pstmt.executeQuery();
-		if(rs.next()) {	//조회결과가 있을 경우 실행. 조회가 되면 값이 있는 것이기 때문에 update해줌
-		pstmt2 = conn.prepareStatement("update member_score set score=? where member_no=?");	//쿼리 준비
-		pstmt2.setInt(1, memberScore.getScore());
-		pstmt2.setInt(2, no);
-	
-		pstmt2.executeUpdate();
-		}else {	//조회가 되지 않으면 값이 없는 것이기 때문에 insert 해줌.
-			pstmt3 = conn.prepareStatement("insert into member_score(member_no, score) values(?, ?)");
-			pstmt3.setInt(1, no);
-			pstmt3.setInt(2, memberScore.getScore());
+			Class.forName("com.mysql.jdbc.Driver");
 			
-			pstmt3.executeUpdate();
-		}
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+			
+			pstmt = conn.prepareStatement("select member_score_no from member_score where member_no=?");	//member_score_no 를 찾기 위해 select.
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {	//조회결과가 있을 경우 실행. 조회가 되면 값이 있는 것이기 때문에 update해줌
+				pstmt2 = conn.prepareStatement("update member_score set score=? where member_no=?");	//쿼리 준비
+				pstmt2.setInt(1, memberScore.getScore());
+				pstmt2.setInt(2, no);
+			
+				pstmt2.executeUpdate();
+			}else {	//조회가 되지 않으면 값이 없는 것이기 때문에 insert 해줌.
+				pstmt3 = conn.prepareStatement("insert into member_score(member_no, score) values(?, ?)");
+				pstmt3.setInt(1, no);
+				pstmt3.setInt(2, memberScore.getScore());
+				
+				pstmt3.executeUpdate();
+			}
 		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 			System.out.println("오류 발생1");
 			e.printStackTrace();	

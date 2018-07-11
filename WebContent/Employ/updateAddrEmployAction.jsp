@@ -2,13 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.*"%>
 <%request.setCharacterEncoding("euc-kr");%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
 	String employAddrContent = request.getParameter("employAddrContent");
@@ -24,5 +17,3 @@
 	
 	response.sendRedirect(request.getContextPath()+"/Employ/employAddrList.jsp?no="+no);
 %>
-</body>
-</html>

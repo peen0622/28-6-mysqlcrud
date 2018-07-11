@@ -49,6 +49,7 @@ public class EmployScoreDao {
 			employAndScore.setEmployScore(employScore);
 			list.add(employAndScore);
 			}
+			
 		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 			System.out.println("오류 발생1");
 			e.printStackTrace();	
@@ -59,40 +60,38 @@ public class EmployScoreDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 		}
-		
 		return list;
 	}
 	//점수 입력 메서드
-	public void insertEmployScore(EmployScore employScore, int no) {
-			
+	public void insertEmployScore(EmployScore employScore, int no) {	
 		try {
-		Class.forName("com.mysql.jdbc.Driver");
-		
-		String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
-				"useUnicode=true&characterEncoding=euckr";
-		String dbUser = "mysqlcrudid";
-		String dbPass = "mysqlcrudpw";
-
-		conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
-		
-		pstmt = conn.prepareStatement("select employ_score_no from employ_score where employ_no=?");	//member_score_no 를 찾기 위해 select.
-		pstmt.setInt(1, no);
-		
-		rs = pstmt.executeQuery();
-		
-		if(rs.next()) {	//조회결과가 있을 경우 실행. 조회가 되면 값이 있는 것이기 때문에 update해줌
-		pstmt2 = conn.prepareStatement("update employ_score set score=? where employ_no=?");	//쿼리 준비
-		pstmt2.setInt(1, employScore.getScore());
-		pstmt2.setInt(2, no);
-	
-		pstmt2.executeUpdate();
-		}else {	//조회가 되지 않으면 값이 없는 것이기 때문에 insert 해줌.
-			pstmt3 = conn.prepareStatement("insert into employ_score(employ_no, score) values(?, ?)");
-			pstmt3.setInt(1, no);
-			pstmt3.setInt(2, employScore.getScore());
+			Class.forName("com.mysql.jdbc.Driver");
 			
-			pstmt3.executeUpdate();
-		}
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+			
+			pstmt = conn.prepareStatement("select employ_score_no from employ_score where employ_no=?");	//member_score_no 를 찾기 위해 select.
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {	//조회결과가 있을 경우 실행. 조회가 되면 값이 있는 것이기 때문에 update해줌
+			pstmt2 = conn.prepareStatement("update employ_score set score=? where employ_no=?");	//쿼리 준비
+			pstmt2.setInt(1, employScore.getScore());
+			pstmt2.setInt(2, no);
+		
+			pstmt2.executeUpdate();
+			}else {	//조회가 되지 않으면 값이 없는 것이기 때문에 insert 해줌.
+				pstmt3 = conn.prepareStatement("insert into employ_score(employ_no, score) values(?, ?)");
+				pstmt3.setInt(1, no);
+				pstmt3.setInt(2, employScore.getScore());
+				
+				pstmt3.executeUpdate();
+			}
 		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 			System.out.println("오류 발생1");
 			e.printStackTrace();	
@@ -155,7 +154,6 @@ public class EmployScoreDao {
 	}
 	//점수 평균 구하는 메서드
 	public int selectScoreAvg() {
-		
 		int r = 0;
 	
 		String driver = "com.mysql.jdbc.Driver";

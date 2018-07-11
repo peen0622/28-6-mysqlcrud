@@ -4,18 +4,18 @@
 <%@ page import="service.MemberDao"%>
 <!DOCTYPE htm>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
-<%
-int no = Integer.parseInt(request.getParameter("no"));
-
-MemberDao mdao = new MemberDao();
-Member m = mdao.updateMemberForm(no);
-%>
-<form action="<%= request.getContextPath() %>/Member/updateMemberAction.jsp?no=<%=no %>" method="post">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<%
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			MemberDao mdao = new MemberDao();
+			Member m = mdao.updateMemberForm(no);
+		%>
+		<form action="<%= request.getContextPath() %>/Member/updateMemberAction.jsp?no=<%=no %>" method="post">
 			<table border="1">
 				<tr>
 					<td>이름</td>
@@ -29,6 +29,6 @@ Member m = mdao.updateMemberForm(no);
 					<td><input type="submit" value="수정"></td>
 				</tr>
 			</table>
-</form>
-</body>
+		</form>
+	</body>
 </html>
