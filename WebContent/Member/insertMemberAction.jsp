@@ -17,4 +17,6 @@
 	
 	MemberDao dao = new MemberDao();	//MemberDao클래스를 통해성 생성된 객체의 주소값을 dao에 할당.
 	dao.insertMember(m);	//dao에 담긴 주소값의 객체에 insertMember메소드를 호출.(m)매개변수에 대입.
+	
+	response.sendRedirect(request.getContextPath()+"/Member/memberList.jsp");
 %>
