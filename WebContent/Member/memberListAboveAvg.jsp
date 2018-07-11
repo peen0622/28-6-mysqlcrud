@@ -18,11 +18,9 @@
 			ArrayList<MemberAndScore> list = new ArrayList<MemberAndScore>();
 			list = msdao.selectMemberListAboveAvg();
 		%>
-		<h3><a href="<%=request.getContextPath()%>/Member/memberAndScoreList.jsp">SCORE LIST -></a></h3>
-		
-		<div><h4>평균 :<%=scoreAvg%></h4></div>
-		
-		<table border="1">
+		<div class = "col1"><a href="<%=request.getContextPath()%>/Member/memberAndScoreList.jsp">전체 점수 리스트</a></div>
+		<div>평균 :<%=scoreAvg%></div>
+		<table>
 			<thead>
 				<tr>
 					<th>MEMBER_NO</th>
@@ -35,9 +33,9 @@
 					for (int i = 0; i < list.size(); i++) {
 				%>
 				<tr>
-					<td><%=list.get(i).getMember().getMemberNo()%></td>
-					<td><%=list.get(i).getMember().getMemberName()%></td>
-					<td><%=list.get(i).getMemberScore().getScore()%></td>
+					<td class = "col1"><%=list.get(i).getMember().getMemberNo()%></td>
+					<td class = "col1"><%=list.get(i).getMember().getMemberName()%></td>
+					<td class = "col1"><%=list.get(i).getMemberScore().getScore()%></td>
 				</tr>
 				<%
 					}

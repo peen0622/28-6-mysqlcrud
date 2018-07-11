@@ -13,7 +13,7 @@
 		<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 	</head>
 	<body>
-		<table border="1">
+		<table>
 			<tr>
 				<th>번호</th>
 				<th>이름</th>

@@ -18,11 +18,9 @@
 			ArrayList<EmployAndScore> list = new ArrayList<EmployAndScore>();
 			list = esdao.selectEmployListAboveAvg();
 		%>
-		<h3><a href="<%=request.getContextPath()%>/Employ/employAndScoreList.jsp">SCORE LIST -></a></h3>
-	
+		<div class = "col1"><a href="<%=request.getContextPath()%>/Employ/employAndScoreList.jsp">전체 점수 리스트</a></div>
 		<div>평균 : <%=scoreAvg%></div>
-		
-		<table border="1">
+		<table>
 			<thead>
 				<tr>
 					<th>EMPLOY_NO</th>
@@ -35,9 +33,9 @@
 					for (int i = 0; i < list.size(); i++) {
 				%>
 				<tr>
-					<td><%=list.get(i).getEmploy().getEmployNo()%></td>
-					<td><%=list.get(i).getEmploy().getEmployName()%></td>
-					<td><%=list.get(i).getEmployScore().getScore()%></td>
+					<td class = "col1"><%=list.get(i).getEmploy().getEmployNo()%></td>
+					<td class = "col1"><%=list.get(i).getEmploy().getEmployName()%></td>
+					<td class = "col1"><%=list.get(i).getEmployScore().getScore()%></td>
 				</tr>
 				<%
 					}

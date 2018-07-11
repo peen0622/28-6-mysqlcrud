@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<form action="<%= request.getContextPath() %>/Employ/insertEmployAction.jsp" method="post">
-			<table>
+			<table border="1">
 				<tr>
 					<td>¿Ã∏ß</td>
 					<td><input type="text" name="employName" size="20"></td>
