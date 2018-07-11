@@ -86,9 +86,11 @@ public class TeacherDao {
 		} catch (ClassNotFoundException | SQLException e) { //Class 파일을 찾지 못하거나 SQL에서 예외가 발생하였을 때
 			e.printStackTrace(); //에러 메세지의 발생 근원지를 찾아서 단계별로 에러를 출력
 		} finally {
-			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {} //resultSet의 값이 null이 아닐 경우 resultSet를 종료시켜줍니다.
-			if (statement != null) try { statement.close(); } catch(SQLException e) {} //statement의 값이 null이 아닐 경우 statement를 종료시켜줍니다.
-			if (connection != null) try { connection.close(); } catch(SQLException e) {} //connection의 값이 null이 아닐 경우 connection를 종료시켜줍니다.
+			if (resultSet2 != null) try { resultSet2.close(); } catch(SQLException e) {}
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
+			if (statement2 != null) try { statement2.close(); } catch(SQLException e) {}
+			if (statement != null) try { statement.close(); } catch(SQLException e) {}
+			if (connection != null) try { connection.close(); } catch(SQLException e) {}
 		}
 		return list; // list 최대 pagePerRow~1
 	}
@@ -152,6 +154,7 @@ public class TeacherDao {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}

@@ -82,6 +82,7 @@ public class TeacherAddrDao {
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			} finally {
+				if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
 				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}
 			}
@@ -144,6 +145,7 @@ public class TeacherAddrDao {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}

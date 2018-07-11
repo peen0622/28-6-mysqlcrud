@@ -33,7 +33,7 @@ public class TeacherScoreDao {
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			} finally {
+		} finally {
 			if (rs != null) try { rs.close(); } catch(SQLException e) {}
 			if (stmt != null) try { stmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
@@ -77,7 +77,7 @@ public class TeacherScoreDao {
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			} finally {
+		} finally {
 			if (rs != null) try { rs.close(); } catch(SQLException e) {}
 			if (stmt != null) try { stmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
@@ -201,8 +201,10 @@ public class TeacherScoreDao {
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			} finally {
+		} finally {
+			if (resultSet2 != null) try { resultSet2.close(); } catch(SQLException e) {}
 			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
+			if (statement2 != null) try { statement2.close(); } catch(SQLException e) {}
 			if (statement != null) try { statement.close(); } catch(SQLException e) {}
 			if (connection != null) try { connection.close(); } catch(SQLException e) {}
 		}
