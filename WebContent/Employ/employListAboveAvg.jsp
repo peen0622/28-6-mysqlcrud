@@ -18,6 +18,9 @@
 		ArrayList<EmployAndScore> list = new ArrayList<EmployAndScore>();
 		list = esdao.selectEmployListAboveAvg();
 	%>
+	
+	<h3><a href="<%= request.getContextPath() %>/Employ/employAndScoreList.jsp">SCORE LIST -></a></h3>
+	
 	<div>
 		ЦђБе : <%=scoreAvg %>
 	</div>
