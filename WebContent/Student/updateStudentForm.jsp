@@ -16,7 +16,6 @@
 			Student student = studentDao.updateStudentForm(no);
 		%>
 		<form action="<%=request.getContextPath() %>/Student/updateStudentAction.jsp?no=<%=no %>" method="post">
-		<!-- submit을 클릭하였을 때 post 방식으로  insertTeacherAction.jsp 이동 -->
 			<table border="1">
 				<tr>
 					<td>이름</td>

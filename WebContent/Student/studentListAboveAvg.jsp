@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 </head>
 <body>
 	<h1>studentListAboveAvg</h1>
@@ -24,9 +25,9 @@
 	<table border="1">
 		<thead>
 			<tr>
-				<td>학생번호</td>
-				<td>학생이름</td>
-				<td>점수</td>
+				<th>학생번호</th>
+				<th>학생이름</th>
+				<th>점수</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,9 +36,9 @@
 					
 			%>
 					<tr>
-						<td><%=list.get(i).getStudent().getStudentNo() %></td>
-						<td><%=list.get(i).getStudent().getStudentName() %></td>
-						<td><%=list.get(i).getStudentScore().getScore() %></td>
+						<td class="col1"><%=list.get(i).getStudent().getStudentNo() %></td>
+						<td class="col1"><%=list.get(i).getStudent().getStudentName() %></td>
+						<td class="col1"><%=list.get(i).getStudentScore().getScore() %></td>
 					</tr>
 			<%
 				}

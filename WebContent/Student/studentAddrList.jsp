@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 </head>
 <body>
 	<table border="1">
@@ -24,9 +25,9 @@
 			
 		%>
 		<tr>
-			<td><%= studentAddr.getStudentAddrContent() %></td>
-			<td><a href="<%= request.getContextPath() %>/Student/updateStudentAddrForm.jsp?no=<%=no%>">수정</a></td>
-			<td><a href="<%= request.getContextPath() %>/Student/deleteStudentAddrAction.jsp?no=<%=no%>">삭제</a></td>
+			<td class="col1"><%= studentAddr.getStudentAddrContent() %></td>
+			<td class="col1"><a href="<%= request.getContextPath() %>/Student/updateStudentAddrForm.jsp?no=<%=no%>">수정</a></td>
+			<td class="col1"><a href="<%= request.getContextPath() %>/Student/deleteStudentAddrAction.jsp?no=<%=no%>">삭제</a></td>
 		</tr>
 	</table>
 <%

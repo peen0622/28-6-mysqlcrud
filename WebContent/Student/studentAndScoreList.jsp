@@ -8,8 +8,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<title>studentAndScorerList</title>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>studentAndScorerList</title>
+<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 </head>
 <body>
 	<table border="1">
@@ -19,23 +20,23 @@
 			<th>학생나이</th>
 			<th>학생점수</th>
 		</tr>
-<%
-	request.setCharacterEncoding("euc-kr");
-	StudentScoreDao studentScoreDao = new StudentScoreDao();
-	ArrayList<StudentAndScore> list = studentScoreDao.selectStudentAndScore();
-	
-	for(int i=0; i<list.size(); i++) {
-		StudentAndScore studentAndScore = list.get(i);
-%>
+		<%
+			request.setCharacterEncoding("euc-kr");
+			StudentScoreDao studentScoreDao = new StudentScoreDao();
+			ArrayList<StudentAndScore> list = studentScoreDao.selectStudentAndScore();
+			
+			for(int i=0; i<list.size(); i++) {
+				StudentAndScore studentAndScore = list.get(i);
+		%>
 	<tr>
-		<td ><%=studentAndScore.getStudent().getStudentNo()%></td>
-		<td><%=studentAndScore.getStudent().getStudentName()%></td>
-		<td><%=studentAndScore.getStudent().getStudentAge()%></td>
-		<td ><%=studentAndScore.getStudentScore().getScore()%></td>
+		<td class="col1"><%=studentAndScore.getStudent().getStudentNo()%></td>
+		<td class="col1"><%=studentAndScore.getStudent().getStudentName()%></td>
+		<td class="col1"><%=studentAndScore.getStudent().getStudentAge()%></td>
+		<td class="col1"><%=studentAndScore.getStudentScore().getScore()%></td>
 	</tr>
-<%
-	}
-%>
+		<%
+			}
+		%>
 	</table>
 </body>
 </html>
