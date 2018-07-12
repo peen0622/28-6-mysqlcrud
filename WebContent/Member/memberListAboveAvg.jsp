@@ -6,11 +6,12 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>Insert title here</title>
+		<title>MemberListAboveAvg</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/List.css">
 	</head>
 	<body>
-		<h1>memberListAboveAvg</h1>
+		<h1>MemberListAboveAvg</h1>
+		<div><h3><a href="<%= request.getContextPath() %>/index.jsp">HOME으로..</a></h3></div>
 		<%
 			MemberScoreDao msdao = new MemberScoreDao();
 			int scoreAvg = msdao.selectScoreAvg();

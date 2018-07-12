@@ -14,52 +14,8 @@ public class MemberScoreDao {
 	PreparedStatement pstmt2 =null;
 	PreparedStatement pstmt3 =null;
 	ResultSet rs = null;
-	//회원 점수 리스트
-	public ArrayList<MemberAndScore> selectMemberAndScored(){
-		ArrayList<MemberAndScore> list = new ArrayList<MemberAndScore>();
-		String sql = "select ms.member_score_no ,ms.score ,ms.member_no ,m.member_name ,m.member_age from member_score ms inner join member m on ms.member_no = m.member_no";
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
-	
-			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
-					"useUnicode=true&characterEncoding=euckr";
-			String dbUser = "mysqlcrudid";
-			String dbPass = "mysqlcrudpw";
-	
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
-			
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-	 		
-			while(rs.next()) {
-			Member member = new Member();
-			member.setMemberNo(rs.getInt("ms.member_no"));
-			member.setMemberName(rs.getString("member_name"));
-			member.setMemberAge(rs.getInt("member_age"));
-			
-			MemberScore memberScore = new MemberScore();
-			memberScore.setMemberScoreNo(rs.getInt("member_score_no"));
-			memberScore.setMemberNo(rs.getInt("member_no"));
-			memberScore.setScore(rs.getInt("score"));
-			
-			MemberAndScore memberAndScore = new MemberAndScore();
-			memberAndScore.setMember(member);
-			memberAndScore.setMemberScore(memberScore);
-			list.add(memberAndScore);
-			}
-		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
-			System.out.println("오류 발생1");
-			e.printStackTrace();	
-		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
-			System.out.println("오류 발생2");
-			ex.printStackTrace();
-		}finally{	//예외가 발생하든 안하든 필수로 실행.
-			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
-			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
-		}
-		return list;
-	}
+	ResultSet rs2 = null;
+
 	//회원 점수 입력
 	public void insertMemberScore(MemberScore memberScore, int no) {
 		
@@ -103,6 +59,84 @@ public class MemberScoreDao {
 			if (pstmt3 != null) try { pstmt3.close(); } catch(SQLException e) {}	//pstmt3종료
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 		}
+	}
+	//회원 점수 리스트
+	public ArrayList<MemberAndScore> selectMemberAndScored(int currentPage, int pagePerRow, String word){
+		ArrayList<MemberAndScore> list = new ArrayList<MemberAndScore>();
+		
+		String sql1 = "select m.member_no, member_name, member_age, score from member_score ms inner join member m on ms.member_no = m.member_no order by member_no desc limit ?, ?";
+		String sql2 = "select m.member_no, member_name, member_age, score from member_score ms inner join member m on ms.member_no = m.member_no where m.member_name like ? order by member_no desc limit ?, ?";
+		String sql3 = "select count(m.member_no) from member_score ms inner join member m on ms.member_no = m.member_no";
+		String sql4 = "select count(m.member_no) from member_score ms inner join member m on ms.member_no = m.member_no where m.member_name like ?";
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//드라이버 로딩
+	
+			String jdbcDriver = "jdbc:mysql://localhost:3306/mysqlcrud?" +
+					"useUnicode=true&characterEncoding=euckr";
+			String dbUser = "mysqlcrudid";
+			String dbPass = "mysqlcrudpw";
+	
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
+		
+			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
+			int row = 0; //테이블의 전체 행의 수
+			int lastPage = 0; //마지막 페이지
+			
+			if(word.equals("")) {
+				pstmt2 = conn.prepareStatement(sql3);
+				pstmt = conn.prepareStatement(sql1);
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, pagePerRow);
+			}else {
+				pstmt2 = conn.prepareStatement(sql4);
+				pstmt2.setString(1, "%"+word+"%");
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, "%"+word+"%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, pagePerRow);
+			}
+			rs2 = pstmt2.executeQuery();
+	
+			if(rs2.next()) {
+				row = rs2.getInt("count(m.member_no)"); //테이블의 전체 행의 수 구하기
+			}
+			
+			if(row % pagePerRow == 0) { //테이블의 전체 행의 수를  페이지 당 보여지는 갯수로 나누었을 때 나머지가 0이라면
+				lastPage = row / pagePerRow; //마지막 페이지 = 테이블의 전체 행의 수 / 페이지 당 보여지는 갯수
+			} else { //0이 아니었을 때
+				lastPage = row / pagePerRow + 1; //마지막 페이지 = (테이블의 전체 행의 수 / 페이지 당 보여지는 갯수) + 1
+			}
+			rs = pstmt.executeQuery();
+				
+			while(rs.next()) {
+				Member member = new Member();
+				member.setMemberNo(rs.getInt("member_no"));
+				member.setMemberName(rs.getString("member_name"));
+				member.setMemberAge(rs.getInt("member_age"));
+				member.setLastPage(lastPage);
+				
+				MemberScore memberScore = new MemberScore();
+				memberScore.setScore(rs.getInt("score"));
+				
+				MemberAndScore memberAndScore = new MemberAndScore();
+				memberAndScore.setMember(member);
+				memberAndScore.setMemberScore(memberScore);
+				list.add(memberAndScore);
+			}
+			
+		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
+			System.out.println("오류 발생1");
+			e.printStackTrace();	
+		} catch (SQLException ex) {	//SQL에서 예외가 발생하면 실행
+			System.out.println("오류 발생2");
+			ex.printStackTrace();
+		}finally{	//예외가 발생하든 안하든 필수로 실행.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}	//pstmt종료
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
+		}
+		return list;
 	}
 	//점수 평균 이상
 	public ArrayList<MemberAndScore> selectMemberListAboveAvg(){

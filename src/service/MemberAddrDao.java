@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MemberAddrDao {
 	//회원 주소 입력
@@ -43,7 +44,9 @@ public class MemberAddrDao {
 		return r;
 	}
 	// 주소 리스트
-	public MemberAddr selectMemberAddr(int no) {
+	public ArrayList<MemberAddr> selectMemberAddr(int no) {
+		ArrayList<MemberAddr> list = new ArrayList<MemberAddr>();
+		
 		Connection conn = null;	
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -60,19 +63,24 @@ public class MemberAddrDao {
 	
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
 			
-			pstmt = conn.prepareStatement("select member_addr_content from member_addr where member_no=?");	//쿼리 준비
+			pstmt = conn.prepareStatement("select member_addr_content,member_addr_no from member_addr where member_no=?");	//쿼리 준비
 			pstmt.setInt(1, no);
 			
 			resultSet = pstmt.executeQuery();
 			
-			if(resultSet.next()) {
+			
+			while(resultSet.next()){
 				ma = new MemberAddr();
 				ma.setMemberAddrContent(resultSet.getString("member_addr_content"));
-			}else {
+				ma.setMemberAddrNo(resultSet.getInt("member_addr_no"));
+				list.add(ma);
+			}
+			if(!resultSet.previous()) {
 				ma = new MemberAddr();
 				ma.setMemberAddrContent("주소를 입력해 주세요!");
+				list.add(ma);
 			}
-			
+				
 		} catch (ClassNotFoundException e) {	//드라이버 로딩 찾지 못해 예외가 발생하면 실행.
 			System.out.println("오류 발생1");
 			e.printStackTrace();	
@@ -83,7 +91,7 @@ public class MemberAddrDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}	//pstmt종료
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}	//conn종료
 		}
-		return ma;
+		return list;
 	}
 	//주소 삭제
 	public void deleteAddrMember(int no) {
@@ -100,7 +108,7 @@ public class MemberAddrDao {
 	
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
 			
-			pstmt = conn.prepareStatement("DELETE FROM member_addr WHERE member_no=?");
+			pstmt = conn.prepareStatement("DELETE FROM member_addr WHERE member_addr_no=?");
 			pstmt.setInt(1, no);
 			
 			pstmt.executeUpdate();
@@ -117,7 +125,7 @@ public class MemberAddrDao {
 		}
 	}
 	//주소 업데이트 폼
-	public MemberAddr updateAddrMemberForm(int no) {
+	public MemberAddr updateAddrMemberForm(int no,int addrno) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	
 		ResultSet resultSet = null;
@@ -134,8 +142,8 @@ public class MemberAddrDao {
 	
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);	//DB연결
 			
-			pstmt = conn.prepareStatement("select * from member_addr where member_no=?");
-			pstmt.setInt(1, no);
+			pstmt = conn.prepareStatement("select * from member_addr where member_addr_no=?");
+			pstmt.setInt(1, addrno);
 
 			resultSet = pstmt.executeQuery();
 			
@@ -160,7 +168,7 @@ public class MemberAddrDao {
 		return ma;
 	}
 	//주소 업데이트
-	public void updateAddrMember(MemberAddr ma,int no) {
+	public void updateAddrMember(MemberAddr ma,int no,int addrno) {
 		Connection conn = null;	
 		PreparedStatement pstmt = null;	
 		PreparedStatement pstmt2 = null;
@@ -183,10 +191,10 @@ public class MemberAddrDao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				pstmt2 = conn.prepareStatement("UPDATE member_addr SET member_no=?, member_addr_content=? where member_no=?");
+				pstmt2 = conn.prepareStatement("UPDATE member_addr SET member_no=?, member_addr_content=? where member_addr_no=?");
 				pstmt2.setInt(1, no);
 				pstmt2.setString(2, ma.getMemberAddrContent());
-				pstmt2.setInt(3, no);
+				pstmt2.setInt(3, addrno);
 		
 				pstmt2.executeUpdate();
 			

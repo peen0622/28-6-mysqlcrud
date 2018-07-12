@@ -4,9 +4,10 @@
 <%@ page import="service.MemberAddrDao"%>
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
+	int addrno = Integer.parseInt(request.getParameter("addrno"));
 	
 	MemberAddrDao mdao = new MemberAddrDao();
-	mdao.deleteAddrMember(no);
+	mdao.deleteAddrMember(addrno);
 	
-	response.sendRedirect(request.getContextPath()+"/Member/memberList.jsp");
+	response.sendRedirect(request.getContextPath()+"/Member/memberAddrList.jsp?no="+no);
 %>
