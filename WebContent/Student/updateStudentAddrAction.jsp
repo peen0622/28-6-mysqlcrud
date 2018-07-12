@@ -12,17 +12,18 @@
 	
 	<body>
 		<%
-			int no = Integer.parseInt(request.getParameter("no"));
-			String studentAddrContent = request.getParameter("studentAddrContent");
+		int no = Integer.parseInt(request.getParameter("no"));
+		System.out.println(no+ "<----- no");
+		String content = request.getParameter("studentAddrContent");
+	
+		StudentAddr studentAddr = new StudentAddr();
+		studentAddr.setStudentAddrContent(content);
+		studentAddr.setStudentNo(no);
 		
-			StudentAddr studentAddr = new StudentAddr();
-			studentAddr.setStudentAddrContent(studentAddrContent);
-			studentAddr.setStudentAddrNo(no);
-			
-			StudentAddrDao studentAddrDao = new StudentAddrDao();
-			studentAddrDao.updateStudentAddr(studentAddr);
-			
-			response.sendRedirect(request.getContextPath()+"/Student/studentAddrList.jsp?no="+no);
+		StudentAddrDao studentDao = new StudentAddrDao();
+		studentDao.updateStudentAddr(studentAddr);
+		
+		response.sendRedirect(request.getContextPath()+"/Student/studentAddrList.jsp?no="+no);
 		%>
 	</body>
 </html>

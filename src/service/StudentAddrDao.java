@@ -112,6 +112,8 @@ public class StudentAddrDao {
 		public void updateStudentAddr(StudentAddr studentAddr) {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
+			PreparedStatement pstmt2 = null;
+			ResultSet rs = null;
 			
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
@@ -123,15 +125,27 @@ public class StudentAddrDao {
 				conn = DriverManager.getConnection(URL, dbUser, dbPass);
 				System.out.println(conn+ "<-- conn");
 				
-				pstmt = conn.prepareStatement("update student_addr set student_addr_content=? where student_no=?");	// 학생 번호를 찾아서 학생주소 테이블에 있는 학생 주소를 수정하는 쿼리문
-				pstmt.setString(1, studentAddr.getStudentAddrContent());
-				pstmt.setInt(2, studentAddr.getStudentNo());
-				pstmt.executeUpdate();
+				pstmt = conn.prepareStatement("select student_no from student_addr where student_no=?");
+				pstmt.setInt(1, studentAddr.getStudentNo());
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					pstmt2 = conn.prepareStatement("update student_addr set student_addr_content=? where student_no=?");
+					pstmt2.setString(1, studentAddr.getStudentAddrContent());
+					pstmt2.setInt(2, studentAddr.getStudentNo());
+				} else {
+					pstmt2 = conn.prepareStatement("insert into student_addr(student_no, student_addr_content) values(?, ?)");
+					pstmt2.setInt(1, studentAddr.getStudentNo());
+					pstmt2.setString(2, studentAddr.getStudentAddrContent());
+				}
+				
+				pstmt2.executeUpdate();
 				
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			} finally {
 				if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+				if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
 				if (conn != null) try { conn.close(); } catch(SQLException e) {}
 			}
 		}

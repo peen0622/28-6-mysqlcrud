@@ -172,7 +172,6 @@ public class StudentDao {
 	public void deleteStudent(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null; 
-		PreparedStatement pstmt2 = null;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
@@ -184,13 +183,9 @@ public class StudentDao {
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
 			System.out.println(conn+ "<-- conn");
 			
-			pstmt = conn.prepareStatement("delete from student_addr where student_no=?");	// 학생의 정보를 삭제하기 위해 자식테이블에 있는 주소를 먼저 삭제하는 쿼리문
+			pstmt = conn.prepareStatement("delete from student where student_no=?");	// 주소 삭제후 학생 정보를 삭제하는 쿼리문
 			pstmt.setInt(1, no);
 			pstmt.executeUpdate();
-			
-			pstmt2 = conn.prepareStatement("delete from student where student_no=?");	// 주소 삭제후 학생 정보를 삭제하는 쿼리문
-			pstmt2.setInt(1, no);
-			pstmt2.executeUpdate();
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
