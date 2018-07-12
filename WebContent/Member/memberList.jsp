@@ -7,10 +7,12 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>memberList</title>
+		<title>MemberList</title>
 		<link rel = "stylesheet" type = "text/css" href = "<%= request.getContextPath() %>/css/List.css">
 	</head>
 	<body>
+		<h1>MemberList</h1>
+		<div><h3><a href="<%= request.getContextPath() %>/index.jsp">HOME으로..</a></h3></div>
 		<table>
 			<tr>
 				<th>번호</th>
@@ -33,7 +35,7 @@
 					word =request.getParameter("word"); //String currentPage를 형변환 하여 대입합니다.
 				}
 				MemberDao memberDao = new MemberDao();
-				ArrayList<Member> list = memberDao.selectMemberByPage(currentPage, 10 ,word);
+				ArrayList<Member> list = memberDao.selectMemberByPage(currentPage, 10 , word);
 				
 				for(int i=0; i<list.size(); i++) {
 					Member member = list.get(i);

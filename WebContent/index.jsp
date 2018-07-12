@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>index</title>
+		<title>HOME</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/Index.css">
 	</head>
 	<body>

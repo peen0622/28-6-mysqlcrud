@@ -6,6 +6,8 @@
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
 	String memberAddrContent = request.getParameter("memberAddrContent");
+	int addrno = Integer.parseInt(request.getParameter("addrno"));
+	System.out.println(addrno +" : 林家锅龋");
 	System.out.println(memberAddrContent +" : 林家");
 	System.out.println(no +" : 锅龋");
 
@@ -14,7 +16,7 @@
 	ma.setMemberAddrContent(memberAddrContent);
 	
 	MemberAddrDao madao = new MemberAddrDao();
-	madao.updateAddrMember(ma,no);
+	madao.updateAddrMember(ma, no, addrno);
 	
 	response.sendRedirect(request.getContextPath()+"/Member/memberAddrList.jsp?no="+no);
 %>
