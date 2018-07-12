@@ -12,10 +12,11 @@
 	<body>
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));
+			int Addrno = Integer.parseInt(request.getParameter("Addrno"));
 			TeacherAddrDao t = new TeacherAddrDao();
-			t.deleteTeacherAddr(no);
+			t.deleteTeacherAddr(Addrno);
 			
-			response.sendRedirect(request.getContextPath()+"/Teacher/teacherList.jsp");
+			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAddrList.jsp?no="+no);
 		%>
 	</body>
 </html>

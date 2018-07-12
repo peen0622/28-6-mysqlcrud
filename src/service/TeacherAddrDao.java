@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TeacherAddrDao {
 	
@@ -30,9 +31,9 @@ public class TeacherAddrDao {
 			resultSet = pstmt1.executeQuery();
 			
 			if(resultSet.next()) {
-				pstmt2 = conn.prepareStatement("update teacher_addr set teacher_addr_content=? where teacher_no=?");
+				pstmt2 = conn.prepareStatement("update teacher_addr set teacher_addr_content=? where teacher_Addr_no=?");
 				pstmt2.setString(1, t.getTeacherAddrContent());
-				pstmt2.setInt(2, t.getTeacherNo());
+				pstmt2.setInt(2, t.getTeacherAddrNo());
 			} else {
 				pstmt2 = conn.prepareStatement("insert into teacher_addr(teacher_no, teacher_addr_content) values(?, ?)");
 				pstmt2.setInt(1, t.getTeacherNo());
@@ -67,7 +68,7 @@ public class TeacherAddrDao {
 				
 				conn = DriverManager.getConnection(URL, dbUser, dbPass);
 				
-				pstmt = conn.prepareStatement("select teacher_addr_content from teacher_addr where teacher_no=?");
+				pstmt = conn.prepareStatement("select teacher_addr_content from teacher_addr where teacher_Addr_no=?");
 				pstmt.setInt(1, no);
 				resultSet = pstmt.executeQuery();
 				
@@ -103,7 +104,7 @@ public class TeacherAddrDao {
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
 			
-			pstmt = conn.prepareStatement("delete from teacher_addr where teacher_no=?");
+			pstmt = conn.prepareStatement("delete from teacher_addr where teacher_Addr_no=?");
 			pstmt.setInt(1, no);
 			pstmt.executeUpdate();
 			
@@ -116,11 +117,12 @@ public class TeacherAddrDao {
 	}
 	
 	//teacher_addr 테이블 teacher_addr_content 데이터
-	public TeacherAddr selectTeacherAddr(int no) {
+	public ArrayList<TeacherAddr> selectTeacherAddr(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		TeacherAddr t = null;
+		ArrayList<TeacherAddr> list = new ArrayList<TeacherAddr>();
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -131,16 +133,20 @@ public class TeacherAddrDao {
 			
 			conn = DriverManager.getConnection(URL, dbUser, dbPass);
 			
-			pstmt = conn.prepareStatement("select teacher_addr_content from teacher_addr where teacher_no=?");
+			pstmt = conn.prepareStatement("select teacher_addr_content, teacher_addr_no from teacher_addr where teacher_no=? order by teacher_addr_no desc");
 			pstmt.setInt(1, no);
 			resultSet = pstmt.executeQuery();
 			
-			if(resultSet.next()) {
+			while(resultSet.next()) {
 				t = new TeacherAddr();
 				t.setTeacherAddrContent(resultSet.getString("teacher_addr_content"));
-			} else {
+				t.setTeacherAddrNo(resultSet.getInt("teacher_addr_no"));
+				list.add(t);
+			}
+			if(!resultSet.previous()) {
 				t = new TeacherAddr();
 				t.setTeacherAddrContent("주소를 입력해주세요!");
+				list.add(t);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -149,7 +155,7 @@ public class TeacherAddrDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
-		return t;
+		return list;
 	}
 	
 	//teacher_addr 테이블 입력

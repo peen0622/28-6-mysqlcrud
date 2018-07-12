@@ -28,8 +28,8 @@ public class TeacherDao {
 		PreparedStatement statement2 = null; //테이블의 전체 행을 구하는 쿼리문을 작성하기 위하여 사용하였음
 		ResultSet resultSet = null; //테이블의 페이지를 나누어진 결과 값을 가지고 오기 위하여 사용하였음
 		ResultSet resultSet2 = null; //테이블의 전체 행의 결과 값을 가지고 오기 위하여 사용하였음
-		String sql1 = "select teacher_no, teacher_name, teacher_age from teacher order by teacher_no limit ?, ?"; //테이블 페이지 나누기
-		String sql2 = "select teacher_no, teacher_name, teacher_age from teacher where teacher_name like ? order by teacher_no limit ?, ?";
+		String sql1 = "select teacher_no, teacher_name, teacher_age from teacher order by teacher_no desc limit ?, ?"; //테이블 페이지 나누기
+		String sql2 = "select teacher_no, teacher_name, teacher_age from teacher where teacher_name like ? order by teacher_no desc limit ?, ?";
 		String sql3 = "select count(teacher_no) from teacher"; //테이블의 전체 행의 수 구하기
 		String sql4 = "select count(teacher_no) from teacher where teacher_name like ?"; //테이블의 검색 조건에 맞는 행의 수 구하기
 		

@@ -13,9 +13,11 @@
 	<body>
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));
+			int Addrno = Integer.parseInt(request.getParameter("Addrno"));
 			String content = request.getParameter("teacherAddrContent");
 		
 			TeacherAddr t = new TeacherAddr();
+			t.setTeacherAddrNo(Addrno);
 			t.setTeacherAddrContent(content);
 			t.setTeacherNo(no);
 			

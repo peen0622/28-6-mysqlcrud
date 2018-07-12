@@ -13,11 +13,24 @@
 	<body>
 		<h1>teacherListAboveAvg</h1>
 		<%
+			request.setCharacterEncoding("euc-kr");
+		
+			int currentPage = 1; //현재 페이지
+			
+			if(request.getParameter("currentPage") != null) {
+				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
+			
+			String word ="";
+			if(request.getParameter("word") != null) {
+				word = request.getParameter("word");
+			}
+			
 			TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
 			int scoreAvg = teacherScoreDao.selectScoreAvg();
 			
 			ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
-			list = teacherScoreDao.selectTeacherListAboveAvg();
+			list = teacherScoreDao.selectTeacherListAboveAvg(currentPage, 10, word);
 		%>
 		<div class = "col1"><a href="<%= request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">전체 점수 리스트</a></div>
 		<div>
@@ -45,5 +58,27 @@
 				%>
 			</tbody>
 		</table>
+		<div class = "col1">
+			<%
+				if(currentPage > 1) {
+			%>
+					<a href="./teacherListAboveAvg.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
+			<%
+				}
+				TeacherAndScore teacherAndScore= list.get(0);
+				if(currentPage < teacherAndScore.getTeacher().getLastPage())	{
+			%>
+					<a href="./teacherListAboveAvg.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+			<%
+				}
+			%>
+		</div>
+		<form action="<%= request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp" method="post">
+			<div>
+				이름 :
+				<input type="text" name="word">
+				<button type="submit">검색</button>
+			</div>
+		</form>
 	</body>
 </html>

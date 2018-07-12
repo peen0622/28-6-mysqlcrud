@@ -58,7 +58,7 @@
 					<a href="./teacherAndScoreList.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
 			<%
 				}
-				TeacherAndScore teacherAndScore= list.get(0);
+				TeacherAndScore teacherAndScore = list.get(0);
 				if(currentPage < teacherAndScore.getTeacher().getLastPage())	{
 			%>
 					<a href="./teacherAndScoreList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
