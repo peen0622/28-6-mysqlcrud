@@ -5,8 +5,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 		<title>HOME</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/main.css">
 	</head>
 	<body>
-		<%@ include file="/module/top.jsp" %>
+		<div class="container-login100" style="background-image: url('<%= request.getContextPath() %>/images/bg-01.jpg');">
+			<%@ include file="/module/top.jsp" %>
+		</div>
 	</body>
 </html>
