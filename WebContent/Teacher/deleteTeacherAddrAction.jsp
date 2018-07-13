@@ -11,10 +11,10 @@
 	
 	<body>
 		<%
-			int no = Integer.parseInt(request.getParameter("no"));
-			int Addrno = Integer.parseInt(request.getParameter("Addrno"));
-			TeacherAddrDao t = new TeacherAddrDao();
-			t.deleteTeacherAddr(Addrno);
+			int no = Integer.parseInt(request.getParameter("no")); //teacher_addr 테이블의 teacher_no
+			int addrNo = Integer.parseInt(request.getParameter("addrNo")); ////teacher_addr 테이블의 teacher_addr_no
+			TeacherAddrDao teacherDao = new TeacherAddrDao();
+			teacherDao.deleteTeacherAddr(addrNo);
 			
 			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAddrList.jsp?no="+no);
 		%>

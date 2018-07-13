@@ -3,8 +3,8 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="service.Teacher"%>
 <%@ page import="service.TeacherScore"%>
-<%@ page import="service.TeacherAndScore"%>
 <%@ page import="service.TeacherScoreDao"%>
+<%@ page import="service.TeacherAndScore"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -14,6 +14,7 @@
 	</head>
 	
 	<body>
+		<%@ include file="/module/top.jsp" %><br>
 		<table>
 			<tr>
 				<th>¹øÈ£</th>
@@ -35,7 +36,7 @@
 				}
 
 				TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScored(currentPage, 10, word);
+				ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherAndScore(currentPage, 5, word);
 				
 				for(int i=0; i<list.size(); i++) {
 					TeacherAndScore teacherAndScore = list.get(i);

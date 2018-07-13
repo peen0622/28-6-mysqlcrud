@@ -15,28 +15,27 @@ public class TeacherScoreDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		TeacherScore t = null;
+		TeacherScore teacherScore = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
 			
-			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "mysqlcrudid";
-			String dbPass = "mysqlcrudpw";
+			String dbUrl = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
+			String dbId = "mysqlcrudid"; //DB 아이디
+			String dbPw = "mysqlcrudpw"; //DB 비밀번호
 			
-			conn = DriverManager.getConnection(URL, dbUser, dbPass);
-			System.out.println(conn+ "<-- conn");
+			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
 			
 			pstmt = conn.prepareStatement("select score from teacher_score where teacher_no=?");
 			pstmt.setInt(1, no);
 			resultSet = pstmt.executeQuery();
 			
 			if(resultSet.next()) {
-				t = new TeacherScore();
-				t.setScore(resultSet.getInt("score"));
+				teacherScore = new TeacherScore();
+				teacherScore.setScore(resultSet.getInt("score"));
 			} else {
-				t = new TeacherScore();
-				t.setScore(0);
+				teacherScore = new TeacherScore();
+				teacherScore.setScore(0);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -45,35 +44,36 @@ public class TeacherScoreDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
-		return t;
+		return teacherScore;
 	}
 	
 	//teacher_score 테이블 평균 점수
 	public int selectScoreAvg() {
 		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
-		String user = "mysqlcrudid";
-		String password = "mysqlcrudpw";
-		String sql = "select avg(score) from teacher_score";
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		int scoreAvg = 0;
 		
 		try {
-			Class.forName(driver); //드라이버 로딩을 할 드라이버명
-			conn = DriverManager.getConnection(url, user, password);
-			stmt = conn.prepareStatement(sql);
-			rs = stmt.executeQuery();
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
 			
-			if(rs.next()) {
-				scoreAvg = rs.getInt("avg(score)");
+			String dbUrl = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
+			String dbId = "mysqlcrudid"; //DB 아이디
+			String dbPw = "mysqlcrudpw"; //DB 비밀번호
+			
+			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
+			
+			pstmt = conn.prepareStatement("select avg(score) from teacher_score");
+			resultSet = pstmt.executeQuery();
+			
+			if(resultSet.next()) {
+				scoreAvg = resultSet.getInt("avg(score)");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) try { rs.close(); } catch(SQLException e) {}
-			if (stmt != null) try { stmt.close(); } catch(SQLException e) {}
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
 		
@@ -84,45 +84,42 @@ public class TeacherScoreDao {
 	public ArrayList<TeacherAndScore> selectTeacherListAboveAvg(int currentPage, int pagePerRow, String word) {
 		ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
 		Connection conn = null;
-		PreparedStatement stmt = null;
-		PreparedStatement stmt2 = null;
-		ResultSet rs = null;
-		ResultSet rs2 = null;
-		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr";
-		String user = "mysqlcrudid";
-		String password = "mysqlcrudpw";
-		String sql = "select  t.teacher_no, t.teacher_name, ts.score from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score) order by ts.score desc limit ?, ?";
-		String sql2 = "select  t.teacher_no, t.teacher_name, ts.score from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score) and t.teacher_name like ? order by ts.score desc limit ?, ?";
-		String sql3 = "select count(ts.teacher_no)  from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score)";
-		String sql4 = "select count(ts.teacher_no)  from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score) and t.teacher_name like ?";
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet resultSet = null;
+		ResultSet resultSet2 = null;
 		
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
+			
+			String dbUrl = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
+			String dbId = "mysqlcrudid"; //DB 아이디
+			String dbPw = "mysqlcrudpw"; //DB 비밀번호
+			
+			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
 			
 			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
 			int row = 0; //테이블의 전체 행의 수
 			int lastPage = 0; //마지막 페이지
 			
 			if(word.equals("")) {
-				stmt2 = conn.prepareStatement(sql3);
-				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, startRow);
-				stmt.setInt(2, pagePerRow);
+				pstmt2 = conn.prepareStatement("select count(ts.teacher_no)  from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score)");
+				pstmt = conn.prepareStatement("select  t.teacher_no, t.teacher_name, ts.score from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score) order by ts.score desc limit ?, ?");
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, pagePerRow);
 			} else {
-				stmt2 = conn.prepareStatement(sql4);
-				stmt2.setString(1, "%"+word+"%");
-				stmt = conn.prepareStatement(sql2);
-				stmt.setString(1, "%"+word+"%");
-				stmt.setInt(2, startRow);
-				stmt.setInt(3, pagePerRow);
+				pstmt2 = conn.prepareStatement("select count(ts.teacher_no)  from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score) and t.teacher_name like ?");
+				pstmt2.setString(1, "%"+word+"%");
+				pstmt = conn.prepareStatement("select  t.teacher_no, t.teacher_name, ts.score from teacher_score ts inner join teacher t on ts.teacher_no=t.teacher_no where ts.score>=(select avg(score) from teacher_score) and t.teacher_name like ? order by ts.score desc limit ?, ?");
+				pstmt.setString(1, "%"+word+"%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, pagePerRow);
 			}
 			
-			rs2 = stmt2.executeQuery();
+			resultSet2 = pstmt2.executeQuery();
 			
-			if(rs2.next()) {
-				row = rs2.getInt("count(ts.teacher_no)"); //테이블의 행의 수 구하기
+			if(resultSet2.next()) {
+				row = resultSet2.getInt("count(ts.teacher_no)"); //테이블의 행의 수 구하기
 			}
 			
 			if(row % pagePerRow == 0) {
@@ -131,16 +128,29 @@ public class TeacherScoreDao {
 				lastPage = row / pagePerRow + 1; //마지막 페이지
 			}	
 
-			rs = stmt.executeQuery();
+			resultSet = pstmt.executeQuery();
 			
-			while(rs.next()) {
+			while(resultSet.next()) {
 				Teacher teacher = new Teacher();
-				teacher.setTeacherNo(rs.getInt("teacher_no"));
-				teacher.setTeacherName(rs.getString("teacher_name"));
+				teacher.setTeacherNo(resultSet.getInt("teacher_no"));
+				teacher.setTeacherName(resultSet.getString("teacher_name"));
 				teacher.setLastPage(lastPage);
 				
 				TeacherScore teacherScore = new TeacherScore();
-				teacherScore.setScore(rs.getInt("score"));
+				teacherScore.setScore(resultSet.getInt("score"));
+				
+				TeacherAndScore teacherAndScore = new TeacherAndScore();
+				teacherAndScore.setTeacher(teacher);
+				teacherAndScore.setTeacherScore(teacherScore);
+				list.add(teacherAndScore);
+			}
+			if(!resultSet.previous()) {
+				Teacher teacher = new Teacher();
+				teacher.setTeacherName("검색하신 이름이 없습니다.");
+				teacher.setLastPage(lastPage);
+				
+				TeacherScore teacherScore = new TeacherScore();
+				teacherScore.setScore(0);
 				
 				TeacherAndScore teacherAndScore = new TeacherAndScore();
 				teacherAndScore.setTeacher(teacher);
@@ -148,14 +158,13 @@ public class TeacherScoreDao {
 				list.add(teacherAndScore);
 			}
 			
-			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (rs2 != null) try { rs2.close(); } catch(SQLException e) {}
-			if (rs != null) try { rs.close(); } catch(SQLException e) {}
-			if (stmt2 != null) try { stmt2.close(); } catch(SQLException e) {}
-			if (stmt != null) try { stmt.close(); } catch(SQLException e) {}
+			if (resultSet2 != null) try { resultSet2.close(); } catch(SQLException e) {}
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
 		
@@ -173,11 +182,11 @@ public class TeacherScoreDao {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
 			
-			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
-			String dbUser = "mysqlcrudid"; //DB 아이디
-			String dbPass = "mysqlcrudpw"; //DB 비밀번호
+			String dbUrl = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
+			String dbId = "mysqlcrudid"; //DB 아이디
+			String dbPw = "mysqlcrudpw"; //DB 비밀번호
 			
-			conn = DriverManager.getConnection(URL, dbUser, dbPass);
+			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
 			
 			pstmt1 = conn.prepareStatement("select teacher_no from teacher_Score where teacher_no=?");
 			pstmt1.setInt(1, no);
@@ -206,46 +215,42 @@ public class TeacherScoreDao {
 	}
 	
 	// teacher 테이블과 teacher_score 테이블 join
-	public ArrayList<TeacherAndScore> selectTeacherAndScored(int currentPage, int pagePerRow, String word) {
+	public ArrayList<TeacherAndScore> selectTeacherAndScore(int currentPage, int pagePerRow, String word) {
 		ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
-		Connection connection = null;
-		PreparedStatement statement = null;
-		PreparedStatement statement2 = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		ResultSet resultSet = null;
 		ResultSet resultSet2 = null;
-		String sql = "select t.teacher_no, teacher_name, teacher_age, score from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no order by teacher_no desc limit ?, ?";
-		String sql2 = "select t.teacher_no, teacher_name, teacher_age, score from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no where t.teacher_name like ? order by teacher_no desc limit ?, ?";
-		String sql3 = "select count(t.teacher_no) from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no"; //테이블의 전체 행의 수 구하기
-		String sql4 = "select count(t.teacher_no) from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no where t.teacher_name like ?"; //테이블의 검색 조건에 맞는 행의 수 구하기
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩을 할 드라이버명
 			
-			String URL = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
-			String dbUser = "mysqlcrudid"; //DB 아이디
-			String dbPass = "mysqlcrudpw"; //DB 비밀번호
+			String dbUrl = "jdbc:mysql://localhost:3306/mysqlcrud?useUnicode=true&characterEncoding=euckr"; //URL 주소
+			String dbId = "mysqlcrudid"; //DB 아이디
+			String dbPw = "mysqlcrudpw"; //DB 비밀번호
 			
-			connection = DriverManager.getConnection(URL, dbUser, dbPass);
+			conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
 			
 			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
 			int row = 0; //테이블의 행의 수
 			int lastPage = 0; //마지막 페이지
 			
 			if(word.equals("")) {
-				statement2 = connection.prepareStatement(sql3);
-				statement = connection.prepareStatement(sql);
-				statement.setInt(1, startRow);
-				statement.setInt(2, pagePerRow);
+				pstmt2 = conn.prepareStatement("select count(t.teacher_no) from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no");
+				pstmt = conn.prepareStatement("select t.teacher_no, teacher_name, teacher_age, score from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no order by teacher_no desc limit ?, ?");
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, pagePerRow);
 			} else {
-				statement2 = connection.prepareStatement(sql4);
-				statement2.setString(1, "%"+word+"%");
-				statement = connection.prepareStatement(sql2);
-				statement.setString(1, "%"+word+"%");
-				statement.setInt(2, startRow);
-				statement.setInt(3, pagePerRow);
+				pstmt2 = conn.prepareStatement("select count(t.teacher_no) from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no where t.teacher_name like ?");
+				pstmt2.setString(1, "%"+word+"%");
+				pstmt = conn.prepareStatement("select t.teacher_no, teacher_name, teacher_age, score from teacher_score ts inner join teacher t on ts.teacher_no = t.teacher_no where t.teacher_name like ? order by teacher_no desc limit ?, ?");
+				pstmt.setString(1, "%"+word+"%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, pagePerRow);
 			}
 			
-			resultSet2 = statement2.executeQuery();
+			resultSet2 = pstmt2.executeQuery();
 			
 			if(resultSet2.next()) {
 				row = resultSet2.getInt("count(t.teacher_no)"); //테이블의 행의 수 구하기
@@ -257,7 +262,7 @@ public class TeacherScoreDao {
 				lastPage = row / pagePerRow + 1; //마지막 페이지
 			}
 			
-			resultSet = statement.executeQuery();
+			resultSet = pstmt.executeQuery();
 			
 			while(resultSet.next()) {
 				Teacher teacher = new Teacher();
@@ -274,14 +279,27 @@ public class TeacherScoreDao {
 				teacherAndScore.setTeacherScore(teacherScore);
 				list.add(teacherAndScore);
 			}
+			if(!resultSet.previous()) {
+				Teacher teacher = new Teacher();
+				teacher.setTeacherName("검색하신 이름이 없습니다.");
+				teacher.setLastPage(lastPage);
+				
+				TeacherScore teacherScore = new TeacherScore();
+				teacherScore.setScore(0);
+				
+				TeacherAndScore teacherAndScore = new TeacherAndScore();
+				teacherAndScore.setTeacher(teacher);
+				teacherAndScore.setTeacherScore(teacherScore);
+				list.add(teacherAndScore);
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
 			if (resultSet2 != null) try { resultSet2.close(); } catch(SQLException e) {}
 			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
-			if (statement2 != null) try { statement2.close(); } catch(SQLException e) {}
-			if (statement != null) try { statement.close(); } catch(SQLException e) {}
-			if (connection != null) try { connection.close(); } catch(SQLException e) {}
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if (conn != null) try { conn.close(); } catch(SQLException e) {}
 		}
 		return list; 
 	}

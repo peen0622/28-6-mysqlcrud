@@ -12,8 +12,8 @@
 	<body>
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));
-			TeacherDao t = new TeacherDao();
-			t.deleteTeacher(no);
+			TeacherDao teacherDao = new TeacherDao();
+			teacherDao.deleteTeacher(no);
 			
 			response.sendRedirect(request.getContextPath()+"/Teacher/teacherList.jsp");
 		%>

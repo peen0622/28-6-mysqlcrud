@@ -8,7 +8,6 @@ public class Teacher {
 	private int lastPage; //마지막 페이지
 	//해당 클래스 내에서만 사용하기 위해서 변수를 private을 사용하여 만들어 줍니다.
 	
-	
 	public int getLastPage() {
 		return lastPage;
 	}

@@ -23,20 +23,20 @@
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));
 		%>
-		
+		<%@ include file="/module/top.jsp" %>
 		<div class="limiter">
 			<div class="container-login100" style="background-image: url('<%= request.getContextPath() %>/images/bg-01.jpg');">
 				<div class="wrap-login100 p-t-30 p-b-50">
-					<span class="login100-form-title p-b-41">Addr Insert Form</span>
+					<span class="login100-form-title p-b-41">주소를 입력하세요!</span>
 
 					<form class="login100-form validate-form p-b-33 p-t-5" action="<%=request.getContextPath() %>/Teacher/insertTeacherAddrAction.jsp?no=<%=no %>" method="post">
 						<div class="wrap-input100 validate-input" data-validate = "Enter username">
-							<input class="input100" type="text" name="teacherAddrContent" placeholder="TeacherAddrContent">
+							<input class="input100" type="text" name="teacherAddrContent" placeholder="teacherAddrContent">
 							<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 						</div>
 	
 						<div class="container-login100-form-btn m-t-32">
-							<button class="login100-form-btn">Addr Insert</button>
+							<button class="login100-form-btn">주소 입력</button>
 						</div>
 					</form>
 				</div>

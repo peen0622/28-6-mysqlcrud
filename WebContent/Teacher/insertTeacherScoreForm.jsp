@@ -25,25 +25,25 @@
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));
 			TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-			TeacherScore t = teacherScoreDao.insertTeacherScoreForm(no);
-			int score = t.getScore();
+			TeacherScore teacherScore = teacherScoreDao.insertTeacherScoreForm(no);
+			int score = teacherScore.getScore();
 		%>
-		
+		<%@ include file="/module/top.jsp" %>
 		<div class="limiter">
 			<div class="container-login100" style="background-image: url('<%= request.getContextPath() %>/images/bg-01.jpg');">
 				<div class="wrap-login100 p-t-30 p-b-50">
-					<span class="login100-form-title p-b-41">Score Insert Form</span>
+					<span class="login100-form-title p-b-41">점수를 입력하세요!</span>
 
 					<form class="login100-form validate-form p-b-33 p-t-5" action="<%=request.getContextPath() %>/Teacher/insertTeacherScoreAction.jsp?no=<%=no%>" method="post">
 						<div class="wrap-input100 validate-input" data-validate = "Enter username">
 						<%
 							if(score==0) {
 						%>
-							<input class="input100" type="text" name="score" placeholder="점수를 입력해주세요.">
+							<input class="input100" type="text" name="score" placeholder="점수가 입력되어있지 않습니다.">
 						<%
 							} else {
 						%>
-							<input class="input100" type="text" name="score" value="<%=score%>점">
+							<input class="input100" type="text" name="score" placeholder="<%=score%>점">
 						<%
 							}
 						%>
@@ -51,7 +51,7 @@
 						</div>
 	
 						<div class="container-login100-form-btn m-t-32">
-							<button class="login100-form-btn">Score Insert</button>
+							<button class="login100-form-btn">점수 입력</button>
 						</div>
 					</form>
 				</div>

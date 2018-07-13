@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import = "service.TeacherScoreDao" %>
 <%@ page import = "service.TeacherScore" %>
-<% request.setCharacterEncoding("euc-kr"); %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,14 +11,17 @@
 	
 	<body>
 		<%
+			request.setCharacterEncoding("euc-kr");
+		
 			int no = Integer.parseInt(request.getParameter("no"));
+			
 			TeacherScore teacherScore = new TeacherScore();
 			teacherScore.setScore(Integer.parseInt(request.getParameter("score")));
 			
-			TeacherScoreDao t = new TeacherScoreDao();
-			t.insertTeacherScore(teacherScore, no);
+			TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
+			teacherScoreDao.insertTeacherScore(teacherScore, no);
 			
-			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAndScoreList.jsp");
+			response.sendRedirect(request.getContextPath()+"/Teacher/teacherList.jsp");
 		%>
 	</body>
 </html>

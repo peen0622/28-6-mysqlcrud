@@ -1,7 +1,8 @@
 <!-- 2018-07-10 이응빈 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="service.*" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="service.TeacherAndScore" %>
+<%@ page import="service.TeacherScoreDao" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,12 +12,12 @@
 	</head>
 	
 	<body>
+		<%@ include file="/module/top.jsp" %><br>
 		<h1>teacherListAboveAvg</h1>
 		<%
 			request.setCharacterEncoding("euc-kr");
 		
 			int currentPage = 1; //현재 페이지
-			
 			if(request.getParameter("currentPage") != null) {
 				currentPage = Integer.parseInt(request.getParameter("currentPage"));
 			}
@@ -30,7 +31,7 @@
 			int scoreAvg = teacherScoreDao.selectScoreAvg();
 			
 			ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
-			list = teacherScoreDao.selectTeacherListAboveAvg(currentPage, 10, word);
+			list = teacherScoreDao.selectTeacherListAboveAvg(currentPage, 5, word);
 		%>
 		<div class = "col1"><a href="<%= request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">전체 점수 리스트</a></div>
 		<div>
@@ -62,13 +63,14 @@
 			<%
 				if(currentPage > 1) {
 			%>
-					<a href="./teacherListAboveAvg.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
+					<a href="<%= request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
 			<%
 				}
+			
 				TeacherAndScore teacherAndScore= list.get(0);
 				if(currentPage < teacherAndScore.getTeacher().getLastPage())	{
 			%>
-					<a href="./teacherListAboveAvg.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+					<a href="<%= request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
 			<%
 				}
 			%>

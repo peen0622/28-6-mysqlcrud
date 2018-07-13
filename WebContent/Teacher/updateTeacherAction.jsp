@@ -1,7 +1,7 @@
+<!-- 2018-07-08 ÀÌÀÀºó -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.Teacher"%>
 <%@ page import="service.TeacherDao"%>
-<% request.setCharacterEncoding("euc-kr"); %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,17 +11,20 @@
 	
 	<body>
 		<%
-			int no = Integer.parseInt(request.getParameter("no"));
-			String name = request.getParameter("teacherName");
-			int age = Integer.parseInt(request.getParameter("teacherAge"));
+			request.setCharacterEncoding("euc-kr");
 		
-			Teacher t = new Teacher();
-			t.setTeacherNo(no);
-			t.setTeacherName(name);
-			t.setTeacherAge(age);
+			int no = Integer.parseInt(request.getParameter("no"));
+			int age = Integer.parseInt(request.getParameter("teacherAge"));
+			String name = request.getParameter("teacherName");
+			
+		
+			Teacher teacher = new Teacher();
+			teacher.setTeacherNo(no);
+			teacher.setTeacherName(name);
+			teacher.setTeacherAge(age);
 			
 			TeacherDao teacherDao = new TeacherDao();
-			teacherDao.updateTeacher(t);
+			teacherDao.updateTeacher(teacher);
 			
 			response.sendRedirect(request.getContextPath()+"/Teacher/teacherList.jsp");
 		%>

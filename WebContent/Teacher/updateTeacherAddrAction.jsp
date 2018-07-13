@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.TeacherAddr"%>
 <%@ page import="service.TeacherAddrDao"%>
-<% request.setCharacterEncoding("euc-kr"); %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,17 +11,19 @@
 	
 	<body>
 		<%
+			request.setCharacterEncoding("euc-kr");
+		
 			int no = Integer.parseInt(request.getParameter("no"));
-			int Addrno = Integer.parseInt(request.getParameter("Addrno"));
+			int addrNo = Integer.parseInt(request.getParameter("addrNo"));
 			String content = request.getParameter("teacherAddrContent");
 		
-			TeacherAddr t = new TeacherAddr();
-			t.setTeacherAddrNo(Addrno);
-			t.setTeacherAddrContent(content);
-			t.setTeacherNo(no);
+			TeacherAddr teacherAddr = new TeacherAddr();
+			teacherAddr.setTeacherAddrNo(addrNo);
+			teacherAddr.setTeacherAddrContent(content);
+			teacherAddr.setTeacherNo(no);
 			
 			TeacherAddrDao teacherDao = new TeacherAddrDao();
-			teacherDao.updateTeacherAddr(t);
+			teacherDao.updateTeacherAddr(teacherAddr);
 			
 			response.sendRedirect(request.getContextPath()+"/Teacher/teacherAddrList.jsp?no="+no);
 		%>

@@ -24,24 +24,25 @@
 	<body>
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));
-			int Addrno = Integer.parseInt(request.getParameter("Addrno"));
+			int addrNo = Integer.parseInt(request.getParameter("addrNo"));
+			
 			TeacherAddrDao teacherAddrDao = new TeacherAddrDao();
-			TeacherAddr t = teacherAddrDao.updateTeacherAddrForm(Addrno);
+			TeacherAddr teacherAddr = teacherAddrDao.updateTeacherAddrForm(addrNo);
 		%>
-		
+		<%@ include file="/module/top.jsp" %>
 		<div class="limiter">
 			<div class="container-login100" style="background-image: url('<%= request.getContextPath() %>/images/bg-01.jpg');">
 				<div class="wrap-login100 p-t-30 p-b-50">
-					<span class="login100-form-title p-b-41">Addr Update Form</span>
+					<span class="login100-form-title p-b-41">주소를 입력하세요!</span>
 
-					<form class="login100-form validate-form p-b-33 p-t-5" action="<%=request.getContextPath() %>/Teacher/updateTeacherAddrAction.jsp?no=<%=no%>&Addrno=<%=Addrno%>" method="post">
+					<form class="login100-form validate-form p-b-33 p-t-5" action="<%=request.getContextPath() %>/Teacher/updateTeacherAddrAction.jsp?no=<%=no%>&addrNo=<%=addrNo%>" method="post">
 						<div class="wrap-input100 validate-input" data-validate = "Enter username">
-							<input class="input100" type="text" name="teacherAddrContent" value="<%=t.getTeacherAddrContent()%>">
+							<input class="input100" type="text" name="teacherAddrContent" value="<%=teacherAddr.getTeacherAddrContent()%>">
 							<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 						</div>
 	
 						<div class="container-login100-form-btn m-t-32">
-							<button class="login100-form-btn">Addr Update</button>
+							<button class="login100-form-btn">주소 수정</button>
 						</div>
 					</form>
 				</div>
