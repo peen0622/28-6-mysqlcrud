@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.Student"%>
 <%@ page import="service.StudentDao"%>
-<% request.setCharacterEncoding("euc-kr"); %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,11 +11,12 @@
 	
 	<body>
 		<%
+			request.setCharacterEncoding("euc-kr");
+		
 			int no = Integer.parseInt(request.getParameter("no"));	// 형변환 하여 int 데이타 타입으로 할당
+			int age = Integer.parseInt(request.getParameter("studentAge"));
 			String name = request.getParameter("studentName");
 			
-			int age = Integer.parseInt(request.getParameter("studentAge"));
-		
 			Student student = new Student();
 			student.setStudentNo(no);
 			student.setStudentName(name);

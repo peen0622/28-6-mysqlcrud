@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.StudentAddr"%>
 <%@ page import="service.StudentAddrDao"%>
-<% request.setCharacterEncoding("euc-kr"); %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,11 +11,14 @@
 	
 	<body>
 		<%
+		request.setCharacterEncoding("euc-kr");
+		
 		int no = Integer.parseInt(request.getParameter("no"));
-		System.out.println(no+ "<----- no");
+		int addrNo = Integer.parseInt(request.getParameter("addrNo"));
 		String content = request.getParameter("studentAddrContent");
 	
 		StudentAddr studentAddr = new StudentAddr();
+		studentAddr.setStudentAddrNo(addrNo);
 		studentAddr.setStudentAddrContent(content);
 		studentAddr.setStudentNo(no);
 		

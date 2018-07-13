@@ -12,8 +12,8 @@
 	<body>
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));	//형변환하여 int(정수형) 데이타타입으로 할당
-			StudentDao student = new StudentDao();
-			student.deleteStudent(no);
+			StudentDao studentDao = new StudentDao();
+			studentDao.deleteStudent(no);
 			
 			response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp");
 		%>

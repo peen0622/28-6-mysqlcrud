@@ -6,16 +6,17 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>deleteTeacherAddrAction</title>
+		<title>deleteStudentAddrAction</title>
 	</head>
 	
 	<body>
 		<%
 			int no = Integer.parseInt(request.getParameter("no"));	//형변환하여 int(정수형) 데이타타입으로 할당
+			int addrNo = Integer.parseInt(request.getParameter("addrNo"));
 			StudentAddrDao studentAddrDao = new StudentAddrDao();
-			studentAddrDao.deleteStudentAddr(no);
-			
-			response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp");	// 삭제시 학생 리스트로 이동
+			studentAddrDao.deleteStudentAddr(addrNo);
+	
+			response.sendRedirect(request.getContextPath()+"/Student/studentAddrList.jsp?no="+no);	// 삭제시 학생 리스트로 이동
 		%>
 	</body>
 </html>

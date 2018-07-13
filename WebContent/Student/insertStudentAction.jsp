@@ -1,22 +1,25 @@
-<!-- 28기 김호순 2018.6.26(화요일) -->
+<!--  2018-06-26 김호순 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="service.StudentDao" %>	<!-- service 패키지내 StudentDao 클래스 임포트 -->
-<% request.setCharacterEncoding("euc-kr"); %>
-<jsp:useBean id="student" class="service.Student"/>	<!-- id : 자바빈 객체에 접근 시 사용할 객체참조변수, class : 임포트할 클래스 -->
-<jsp:setProperty property="*" name="student"/>	<!-- property에 *을 입력하여 모두 객체에 담을 수있다, name :  id에 지정한 객체참조변수 -->
+<%@ page import = "service.StudentDao" %>
+<%@ page import = "service.Student" %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>insertStudentAction</title>
-</head>
-<body>
-<%
-	StudentDao sdao = new StudentDao();	// 클래스 데이터타입의 객체참조변수 sdao에 StudentDao()생성자 메서드의 주소갑을 할당
-	sdao.insertStudent(student);	// sdao의 주소값을 찾아가 Dao클래스의 inserStudent메서드에 student(id)를 대입하고 호풀.
-	
-	response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp");
-%>
 
-</body>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<title>insertTeacherAction</title>
+	</head>
+	
+	<body>
+		<%
+			request.setCharacterEncoding("euc-kr");
+			Student student = new Student();
+			student.setStudentName(request.getParameter("studentName"));
+			student.setStudentAge(Integer.parseInt(request.getParameter("studentAge")));
+			
+			StudentDao studentDao = new StudentDao(); //StudentDao data type으로 studentDao 객체참조변수를 선언하고 StduentDao 생성자 메서드로 객체를(주소값) 생성하고 할당합니다.
+			studentDao.insertStudent(student); //studentDao 객체참조변수의 주소값을 찾아가서 insertStudent 메서드를 student 객체참조변수의 주소값을 대입하여 호출합니다.
+			response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp");
+		%>
+	</body>
 </html>
